@@ -1,0 +1,35 @@
+<html xmlns:th="http://www.thymeleaf.org">
+	<div class="team-register-wrapper">
+		<form action="/team/register" method="post" class="team-register-container">
+			<div class="team-register-header">
+				<div class="team-register-title">
+					<p>Register Team</p>
+				</div>
+			</div>
+			<div class="team-register-content">
+				<!--
+					팀명
+					팀 리더
+					역할
+				-->
+				<div class="team-register-item">
+					<input type="text" name="teamName" placeholder="팀명을 입력해주세요" />
+				</div>
+				<div class="team-register-item">
+					<input type="text" name="memberID" value="userID" readonly />
+				</div>
+				<div class="team-register-item">
+					<select name="teamRole">
+						<option value="PM">PM</option>
+						<option value="Frontend Developer">프론트엔드 개발자</option>
+						<option value="Backend Developer">백엔드 개발자</option>
+						<option value="DBA">DBA</option>
+						<option value="UI/UI Designer">UI/UX 디자이너</option>
+						<option value="QA Engineer">QA 엔지니어</option>
+					</select>
+				</div>
+				<button type="submit" class="team-register-btn">Register</button>
+			</div>
+		</form>
+	</div>
+</html>

@@ -11,4 +11,9 @@ public class MainController {
 	public String home() {
 		return "index";
 	}
+	
+	@GetMapping("/error")
+	public String error() {
+		return "error/error";
+	}
 }
