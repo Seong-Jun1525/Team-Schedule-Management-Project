@@ -1,6 +1,7 @@
 package com.yuhan.TeamScheduleManagement.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -25,15 +26,14 @@ public class TeamController {
 	@PostMapping("/register")
 	public String teamRegister(Team team, RedirectAttributes redirectAttributes) {
 		try {
-			System.out.println(team);
+//			System.out.println(team);
 			teamService.insertTeam(team);
 			return "redirect:/";
 		} catch (Exception ex) {
-			int errorCode = ex.hashCode();
 			String errorMessage = ex.getMessage();
-	        System.out.println("Error : " + errorCode);
+	        System.out.println("Error : " + HttpStatus.NOT_FOUND.toString());
 	        System.out.println("Error : " + errorMessage);
-	        redirectAttributes.addFlashAttribute("code", errorCode);
+	        redirectAttributes.addFlashAttribute("code", HttpStatus.NOT_FOUND.toString());
 	        redirectAttributes.addFlashAttribute("message", errorMessage);
 	        return "redirect:/err";
 		}

@@ -6,5 +6,4 @@ public interface TeamService {
 	public void insertTeam(Team team);
 	public void updateTeam(Team team);
 	public Team getTeam(Team team);
-	
 }

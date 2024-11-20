@@ -4,7 +4,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
 @RequestMapping("/")
@@ -15,13 +14,13 @@ public class MainController {
 	}
 	
 	@GetMapping("/err")
-	public String error(
-			@RequestParam(required = false) String message, 
-			@RequestParam(required = false) String code,
-			Model model
-		) {
-		model.addAttribute("code", code != null ? code : "No Code");
-		model.addAttribute("message", message != null ? message : "An unknown error occurred.");
+	public String error(Model model) {
+		if (!model.containsAttribute("code")) {
+	        model.addAttribute("code", "Unknown Error");
+	    }
+	    if (!model.containsAttribute("message")) {
+	        model.addAttribute("message", "An unknown error occurred.");
+	    }
 	    return "error/error";
 	}
 }

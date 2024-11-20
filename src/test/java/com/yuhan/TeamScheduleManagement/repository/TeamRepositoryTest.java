@@ -1,5 +1,7 @@
 package com.yuhan.TeamScheduleManagement.repository;
 
+import java.util.Optional;
+
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -19,10 +21,17 @@ public class TeamRepositoryTest {
 	public void testInsertTeam() {
 		Team team = new Team();
 		team.setTeamName("DoubleSJ Test");
-		team.setMemberID("SeongJun");
+		team.setMemberId("SeongJun");
 		team.setTeamPosition(TeamPosition.LEADER);
 		team.setTeamRole("PM");
-		
 		teamRepo.save(team);
+	}
+	
+	// team 상태 업데이트 단위테스트
+	// @Test
+	public void testUpdateTeam() {
+		Optional<Team> findTeam = teamRepo.findById(1);
+		Team team = findTeam.get();
+		team.setTeamState(Team.TeamState.INACTIVE);
 	}
 }

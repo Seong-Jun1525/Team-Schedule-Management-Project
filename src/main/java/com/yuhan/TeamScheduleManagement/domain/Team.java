@@ -19,11 +19,11 @@ public class Team {
     @GeneratedValue(strategy = GenerationType.IDENTITY) // AUTO_INCREMENT 매핑
     private int teamNum;
 
-    @Column(nullable = false, length = 20)
+    @Column(nullable = false, length = 20, unique = true)
     private String teamName;
     
     @Column(nullable = false, length = 20)
-    private String memberID;
+    private String memberId;
 
     /*
      * @ManyToOne
