@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>DoubleSJ</title>
+</head>
+<body>
+	<h1>테스트 게시판</h1>
+	<h3><a th:href="@{/testBoard/insertData}">데이터추가</a></h3>
+	<table
+		style="
+			width: 100%;
+			height: 100%;
+			border: 1px solid black;
+			background: green;
+		"
+	>
+		<thead>
+			<tr>
+				<td>번호</td>
+				<td>이름</td>
+			</tr>
+		</thead>
+		<tbody>
+			<tr th:each="testBoard : ${testBoardList}">
+				<td th:text="${testBoard.seq}"></td>
+				<td th:text="${testBoard.myName}"></td>
+			</tr>
+		</tbody>
+	</table>
+</body>
+</html>

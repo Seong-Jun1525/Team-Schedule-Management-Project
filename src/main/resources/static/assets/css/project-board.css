@@ -1,0 +1,110 @@
+.project-board-detail-wrapper {
+	width: 100%;
+	height: 100vh;
+}
+
+.project-board-detail-container {
+	width: 100%;
+	height: 100%;
+	display: flex;
+	flex-direction: column;
+	align-items: flex-start;
+}
+
+.project-board-detail-header {
+	width: 100%;
+}
+
+.project-board-detail-header > div,
+.project-board-detail-sub-header > div {
+	margin-bottom: 1rem;
+}
+
+.project-board-detail-goal {
+	display: flex;
+	width: 100%;
+	font-size: 3rem;
+}
+
+.project-board-detail-sub-header {
+	width: 100%;
+	display: flex;
+	flex-direction: column;
+	align-items: flex-end;
+}
+
+.project-board-detail-leader {
+	display: flex;
+	font-size: 1.5rem;
+}
+
+.project-board-detail-number-of-people {
+	display: flex;
+	font-size: 1.5rem;
+}
+
+.project-board-detail-tech-stack {
+	display: flex;
+	font-size: 1.5rem;
+}
+
+.project-board-detail-tech-stack > span {
+	margin-right: 1rem;
+}
+
+.project-board-detail-tech-stack > span:last-child {
+	margin-right: 0;
+}
+
+.project-board-detail-tech-stack > span > svg {
+	width: 2.3rem;
+	height: 2.3rem;
+	background-color: var(--font-color);
+	border: 0.1rem solid var(--font-color);
+	border-radius: 1rem;
+	padding: 0.3rem;
+}
+
+.project-board-detail-project-period {
+	display: flex;
+}
+
+.project-board-detail-tech-stack > p:nth-child(1)::after,
+.project-board-detail-leader > p:nth-child(1)::after,
+.project-board-detail-number-of-people > p:nth-child(1)::after,
+.project-board-detail-project-period > p:nth-child(1)::after {
+	content: "";
+	margin: 0.5rem;
+	padding: 0.15rem;
+	background-color: var(--font-color);
+}
+
+.project-board-detail-content {
+	width: 100%;
+	height: 100%;
+}
+
+.project-board-detail-btn-wrapper {
+	width: 100%;
+	padding: 1rem;
+	display: flex;
+	align-items: center;
+	justify-content: flex-end;
+}
+
+.project-board-detail-btn {
+	padding: 0.5rem;
+	border: 0.1rem solid var(--font-color);
+	border-radius: 1rem;
+	font-size: 1.2rem;
+	font-weight: 900;
+	padding: 1rem;
+	transition: 0.3s ease-in-out;
+}
+
+.project-board-detail-btn:hover {
+	cursor: pointer;
+	background-color: var(--btn-background-color);
+	border: 0.1rem solid var(--strong-font-color);
+	color: var(--strong-font-color);
+}

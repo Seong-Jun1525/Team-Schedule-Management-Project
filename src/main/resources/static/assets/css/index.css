@@ -1,0 +1,129 @@
+:root {
+	width: 100vw;
+	min-height: 100vh;
+	
+	/* 색상 */
+	--main-background-color: #0F2C33;
+	--btn-background-color: #21616A;
+	--light-content-color: #2E9CA0;
+	--dark-content-color: #533946;
+	--strong-font-color: #EFA00F;
+	--font-color: #E6D1B4;
+	
+	/* error 색상 */
+	--error-color: #FF0000;
+}
+
+@font-face {
+    font-family: 'GowunDodum-Regular';
+    src: url('https://fastly.jsdelivr.net/gh/projectnoonnu/noonfonts_2108@1.1/GowunDodum-Regular.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+	overflow-x: hidden;
+	margin: 0;
+	padding: 0;
+	font-family: 'GowunDodum-Regular', sans-serif;
+	background-color: var(--main-background-color);
+}
+
+header {
+	width: 100%;
+	height: 15vh;
+	margin-bottom: 1rem;
+	border-bottom: 0.15rem solid var(--font-color);
+}
+
+nav {
+	padding-top:0.2rem;
+	margin-bottom: 1rem;
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+}
+
+main {
+	width: 100%;
+	/*
+	background-color: var(--sub-background-color);
+	*/
+	border-radius: 1rem;
+	padding: 1rem;
+	margin-bottom: 3rem;
+}
+
+footer {
+	width: 100%;
+	padding: 1.5rem;
+	background-color: var(--dark-content-color);
+	border-top: 0.15rem solid var(--font-color);
+}
+
+input {
+	border: none;
+	outline: none;
+}
+
+input[type='radio'] {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  width: 1rem;
+  height: 1rem;
+  border: 0.1rem solid var(--font-color);
+  border-radius: 1rem;
+  outline: none;
+  cursor: pointer;
+}
+
+/* 체크 시 버튼 모양 스타일 */
+input[type='radio']:checked {
+  background-color: var(--font-color);
+  border: 0.1rem solid var(--strong-font-color);
+  box-shadow: 0 0 0 0.1rem var(--btn-background-color);
+}
+
+
+h1, h2, h3, h4, h5, h6, p, i, a {
+    margin: 0;
+    padding: 0;
+    color: var(--font-color);
+}
+
+a {
+    text-decoration: none;
+}
+
+ul {
+	list-style: none;
+}
+
+select {
+	background: none;
+	outline: 0 none;
+	padding: 1rem;
+	color: var(--strong-font-color);
+}
+
+option {
+	color: var(--font-color);
+	background-color: var(--btn-background-color);
+}
+
+li {
+	font-size: 1.15rem;
+	font-weight: 900;
+	margin-bottom: 1rem;
+}
+
+button {
+	background: none;
+	border: none;
+	color: var(--font-color);
+}

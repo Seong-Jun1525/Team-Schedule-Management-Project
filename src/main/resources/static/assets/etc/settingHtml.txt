@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<title>DoubleSJ</title>
+	
+	<link rel="stylesheet" href="../assets/css/index.css" />
+	<link rel="stylesheet" href="../assets/css/main.css" />
+	<link rel="stylesheet" href="../assets/css/board.css" />
+	
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+</head>
+<body>
+	<!--
+		DoubleSJ
+		<a th:href="@{/testBoard/testBoardList}">testBoard</a>
+	-->
+	<div class="container">
+		<!-- header -->
+		<header>
+			<div class="quick-menu">
+				<a th:href="@{member/sign-up}">
+					<i class="fa-solid fa-user-plus"></i>
+				</a>
+				<a th:href="@{member/sign-in}">
+					<i class="fa-solid fa-arrow-right-to-bracket"></i>
+				</a>
+				<a th:href="@{member/logout}">
+					<i class="fa-solid fa-arrow-right-from-bracket"></i>
+				</a>
+			</div>
+			<nav>
+				<span class="main-title">&nbsp;팀 프로젝트 일정관리 웹</span>
+				<div class="main-menu">
+					<a href="/">
+						<span>Board</span>
+					</a>
+					
+					<!-- my-team -->
+					<a th:href="@{my-team/myTeamMain}">
+						<span>My Team</span>
+					</a>
+					
+					<a th:href="@{member/my-info}">
+						<span>My Info</span>
+					</a>
+				</div>
+			</nav>
+		</header>
+		
+		<!-- main -->
+		<main>
+			<!-- 내용추가 -->
+			
+		</main>
+	</div>
+		
+	<!-- footer -->
+	<footer>
+		<div class="container">
+			<div class="footer-content">
+				<p>2024 | 온라인 팀 프로젝트 일정관리 웹 | Double SJ | 임성준 | 이석재</p>
+			</div>
+		</div>
+	</footer>
+</body>
+</html>

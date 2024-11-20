@@ -1,0 +1,39 @@
+<html xmlns:th="http://www.thymeleaf.org">
+	<div class="sign-up-wrapper">
+		<div class="sign-up-container">
+			<div class="sign-up-header">
+				<p>Sign Up</p>
+			</div>
+			<div class="sign-up-content">
+				<div class="form-item">
+					<input type="text" name="memberID" placeholder="아이디를 입력해주세요" />
+				</div>
+				<div class="form-item">
+					<input type="password" name="memberPW" placeholder="패스워드를 입력해주세요" />
+				</div>
+				<div class="form-item">
+					<input type="text" name="memberName" placeholder="성함을 입력해주세요" />
+				</div>
+				<div class="form-item">
+					<input type="emil" name="memberEmail" placeholder="email을 입력해주세요" />
+				</div>
+				<div class="form-item">
+					<p><input type="radio" id="man-raido" name="memberGender" value="Man" /> <label for="man-raido">Man</label></p>
+					<p><input type="radio" id="woman-raido" name="memberGender" value="Woman" /> <label for="woman-raido">Woman</label></p>
+					<p><input type="radio" id="anonym-raido" name="memberGender" value="anonym" /> <label for="anonym-raido">Anonym</label></p>
+				</div>
+				<div class="form-item">
+					<select name="memberJob">
+						<option>PM</option>
+						<option>프론트엔드 개발자</option>
+						<option>백엔드 개발자</option>
+						<option>DBA</option>
+						<option>UI/UX 디자이너</option>
+						<option>QA 엔지니어</option>
+					</select>
+				</div>
+				<button type="submit" class="sign-up-btn">Sign Up</button>
+			</div>
+		</div>
+	</div>
+</html>

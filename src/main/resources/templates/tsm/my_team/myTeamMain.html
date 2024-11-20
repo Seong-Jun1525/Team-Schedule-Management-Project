@@ -1,0 +1,62 @@
+<html xmlns:th="http://www.thymeleaf.org">
+	<div class="team-container">
+		<aside class="team-side">
+			<p class="team-side-menu-title">My Team</p>
+			<nav class="team-side-menu">
+		        <ul>
+		            <li>
+						<a 
+							href="#" 
+							th:data-url="@{my-team/home}" 
+							onclick="loadSideContent(event)"
+						>
+							<span>Home</span>
+						</a>
+					</li>
+		            <li>
+						<a 
+							href="#" 
+							th:data-url="@{my-team/member}" 
+							onclick="loadSideContent(event)"
+						>
+							<span>Team Member</span>
+						</a>
+					</li>
+		            <li>
+						<a 
+							href="#" 
+							th:data-url="@{my-team/schedule}" 
+							onclick="loadSideContent(event)"
+						>
+							<span>Team Schedule</span>
+						</a>
+					</li>
+		            <li>
+						<a 
+							href="#" 
+							th:data-url="@{my-team/board}" 
+							onclick="loadSideContent(event)"
+						>
+							<span>Team Board</span>
+						</a>
+					</li>
+		            <li>
+						<a 
+							href="#" 
+							th:data-url="@{my-team/chat}" 
+							onclick="loadSideContent(event)"
+						>
+							<span>Team Chat</span>
+						</a>
+					</li>
+		        </ul>
+		    </nav>
+		</aside>
+		<section class="team-side-content">
+			<div id="side-content" layout:fragment="content">
+				<!-- 삽입될 내용 -->
+				<div th:replace="my_team/myTeamHome :: defaultContentFragment"></div>
+			</div>
+		</section>
+	</div>
+</html>
