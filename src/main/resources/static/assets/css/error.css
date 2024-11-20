@@ -1,0 +1,18 @@
+body {
+	overflow-x: hidden;
+	margin: 0;
+	padding: 3rem;
+	font-family: 'GowunDodum-Regular', sans-serif;
+	background-color: #0F2C33;
+	color: #E6D1B4;
+}
+
+.error-wrapper {
+	width: 100%;
+	height: 100%;
+}
+
+.error-header {
+	color: #EFA00F;
+	font-size: 5rem;
+}

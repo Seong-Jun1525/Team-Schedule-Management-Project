@@ -1,3 +1,21 @@
 <html xmlns:th="http://www.thymeleaf.org">
-error
+<head>
+	<title>Error Page</title>
+	<link rel="stylesheet" href="../../assets/css/error.css" />
+</head>
+<body>
+	<div class="error-wrapper">
+		<div class="error-container">
+			<div class="error-header">
+				<p th:text="${code}">Code</p>
+			</div>
+			<div class="error-content">
+				<p th:text="${message}">message</p>
+			</div>
+			<div class="footer-content">
+				<p>2024 | 온라인 팀 프로젝트 일정관리 웹 | Double SJ | 임성준 | 이석재</p>
+			</div>
+		</div>
+	</div>
+</body>
 </html>
