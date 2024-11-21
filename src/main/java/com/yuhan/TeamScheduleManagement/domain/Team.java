@@ -24,6 +24,9 @@ public class Team {
     
     @Column(nullable = false, length = 20)
     private String memberId;
+    
+    @Column(nullable = false)
+    private int numberOfPeople = 1;
 
     /*
      * @ManyToOne
