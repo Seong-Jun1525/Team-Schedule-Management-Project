@@ -68,6 +68,17 @@ footer {
 input {
 	border: none;
 	outline: none;
+	width: 100%;
+	background: none;
+	transition: 0.1s ease-in-out;
+	color: var(--font-color);
+	padding: 1rem;
+	border-bottom: 0.1rem solid var(--font-color);
+}
+
+input:focus {
+	background: var(--dark-content-color);
+	outline: 0.15rem solid var(--font-color);
 }
 
 input[type='radio'] {

@@ -1,0 +1,151 @@
+.project-board-register-wrapper {
+	width: 100%;
+	height: 100%;
+	margin-top: 1.3rem;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+.project-board-register-container {
+	width: 50%;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	padding: 3rem;
+	border: 0.1rem solid var(--font-color);
+	border-radius: 1rem;
+}
+
+.project-board-register-header {
+	width: 100%;
+	margin-bottom: 2rem;
+	display: flex;
+}
+
+.project-board-register-header::before {
+	content: "";
+	margin-right: 1rem;
+	padding: 0.15rem;	
+	background-color: var(--font-color);
+}
+
+.project-board-register-title {
+	font-size: 3rem;
+	font-weight: 900;
+}
+
+.project-board-register-content {
+	width: 100%;
+	height: 100%;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+}
+
+.project-board-register-item {
+	width: 100%;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	margin-bottom: 2rem;
+}
+
+.project-board-register-item > textarea {
+	font-size: 0.7rem;
+}
+
+.project-board-register-item > input {
+	font-size: 1.3rem;
+}
+
+.project-board-register-item > textarea,
+.project-board-register-item > input {
+	width: 100%;
+	background: none;
+	transition: 0.1s ease-in-out;
+	color: var(--font-color);
+	padding: 1rem;
+	border-bottom: 0.1rem solid var(--font-color);
+}
+
+.project-board-register-item > textarea:focus,
+.project-board-register-item > input:focus {
+	background: var(--dark-content-color);
+	outline: 0.15rem solid var(--font-color);
+}
+
+.project-board-register-tech-item {
+	width: 100%;
+	height: 100%;
+	display: flex;
+	align-items: center;
+	justify-content: space-around;
+}
+
+.projectTechStack {
+	width: 70%;
+	padding: 0 !important;
+	margin-bottom: 1rem;
+}
+
+.projectTechStack > option {
+	font-size: 1rem;
+	border-bottom: 0.1rem solid var(--strong-font-color);
+}
+
+.btn-add {
+	width: 20%;
+	padding: 0.7rem;
+	border-radius: 1rem;
+	border: 0.1rem solid var(--font-color);
+	background-color: var(--btn-background-color);
+}
+
+.btn-add:hover {
+	cursor: pointer;
+	border-color: var(--strong-font-color);
+	color: var(--strong-font-color);
+	background-color: var(--light-content-color);
+}
+
+#techStackList {
+	width: 100%;
+	display: flex;
+	flex-wrap: wrap;
+	border-radius: 1rem;
+	border: 0.1rem solid var(--font-color);
+	padding: 1rem;
+}
+
+.tech-stack {
+	background-color: var(--dark-content-color);
+	color: var(--font-color);
+	padding: 0.3rem;
+	border-radius: 1rem;
+	margin-right: 0.3rem;
+}
+
+.delete-tech-stack {
+	cursor: pointer;
+	margin-left: 0.3rem;
+}
+
+.delete-tech-stack:hover > i {
+	color: var(--strong-font-color);
+}
+
+.btn-project-board-register {
+	font-size: 1.3rem;
+	border: 0.1rem solid var(--font-color);
+	padding: 1rem;
+	border-radius: 1rem;
+}
+
+.btn-project-board-register:hover {
+	cursor: pointer;
+	border-color: var(--strong-font-color);
+	color: var(--strong-font-color);
+	background-color: var(--btn-background-color);
+}

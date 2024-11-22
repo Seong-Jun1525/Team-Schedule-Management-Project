@@ -38,7 +38,7 @@
 					<p>
 						<a 
 							href="#" 
-							th:data-url="@{project-board/}" 
+							th:data-url="@{project-board/detail}" 
 							onclick="loadContent(event)"
 						>
 							프로젝트 팀원 구합니다.
@@ -233,14 +233,21 @@
 		</div>
 	</div>
 	<div class="page-num-wrapper">
-		<span>
-			<i class="fa-solid fa-chevron-left"></i>
-		</span>
-		<span class="page-num">1</span>
-		<span class="page-num">2</span>
-		<span class="page-num">3</span>
-		<span>
-			<i class="fa-solid fa-chevron-right"></i>
-		</span>
+		<div class="page-num-container">
+			<div class="page-num">
+				<span>
+					<i class="fa-solid fa-chevron-left"></i>
+				</span>
+				<span class="page-num-item">1</span>
+				<span class="page-num-item">2</span>
+				<span class="page-num-item">3</span>
+				<span>
+					<i class="fa-solid fa-chevron-right"></i>
+				</span>
+			</div>
+			<div class="project-register-btn">
+				<a href="#" th:data-url="@{project-board/register}" onclick="loadContent(event)">프로젝트 등록</a>
+			</div>
+		</div>
 	</div>
 </div>

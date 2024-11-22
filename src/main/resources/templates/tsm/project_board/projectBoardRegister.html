@@ -1,0 +1,45 @@
+<html xmlns:th="http://www.thymeleaf.org" th:fragment="projectBoardRegisterFragment">
+	<div class="project-board-register-wrapper">
+		<div class="project-board-register-container">
+			<div class="project-board-register-header">
+				<div class="project-board-register-title">
+					<p>Register Project</p>
+				</div>
+			</div>
+			<form action="/project-board/register" method="post" class="project-board-register-content">
+				<div class="project-board-register-item">
+					<input type="text" name="projectName" required placeholder="프로젝트 명을 입력해주세요" />
+				</div>
+				<div class="project-board-register-item">
+					<input type="text" name="projectGoal" required placeholder="프로젝트 목표를 입력해주세요" />
+				</div>
+				<div class="project-board-register-item">
+					<input type="text" name="projectLeader" required value="userID" readonly />
+				</div>
+				<div class="project-board-register-item">
+					<input type="number" name="projectNumberOfPeople" required value="3" readonly />
+				</div>
+				<div class="project-board-register-item">
+				    <select class="projectTechStack" id="availableTechStacks" multiple name="techStacks">
+				        <option value="" disabled selected>기술 스택을 선택하세요</option>
+				        <th:block th:each="techStack : ${techStacks}">
+				            <option th:value="${techStack.techStackName}"
+				                    th:text="${techStack.techStackName} + ' (' + ${techStack.techStackType} + ')'"></option>
+				        </th:block>
+				    </select>
+				    <!--
+				    <button type="button" id="addTechStackBtn" class="btn-add" onclick="addSelectedTechStack()">추가</button>
+				    <ul id="techStackList"></ul>
+				    -->
+				</div>
+				<div class="project-board-register-item">
+					<textarea name="projectContent" placeholder="프로젝트 설명을 입력해주세요"></textarea>
+				</div>
+				<div class="project-board-register-item">
+					<input type="text" name="projectPeriod" />
+				</div>
+				<button type="submit" class="btn-project-board-register">Register</button>
+			</form>
+		</div>
+	</div>
+</html>

@@ -47,16 +47,25 @@
 	text-align: center;
 	color: var(--font-color);
 }
-
 .page-num-wrapper {
 	width: 100%;
+}
+.page-num-container {
+	width: 100%;
+	display: flex;
+	align-items: center;
+	justify-content: flex-end;
+}
+
+.page-num {
 	display: flex;
 	align-items: center;
 	justify-content: center;
 	padding: 1rem;
+	margin-right: 35%;
 }
 
-.page-num-wrapper > span {
+.page-num > span {
 	text-align: center;
 	border-radius: 1rem;
 	width: 1.7rem;
@@ -66,12 +75,12 @@
 	border: 0.1rem solid var(--font-color);	
 }
 
-.page-num-wrapper > span:hover {
+.page-num > span:hover {
 	cursor: pointer;
 	color: var(--strong-font-color);
 	background-color: var(--btn-background-color);
 }
 
-.page-num {
+.page-num-item {
 	margin: 0 0.3rem;
 }

@@ -96,6 +96,7 @@
 }
 
 .search-project {
+	width: 40% !important;
 	font-size: 1.3rem;
 	background: none;
 	transition: 0.1s ease-in-out;
