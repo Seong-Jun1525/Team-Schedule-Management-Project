@@ -149,3 +149,28 @@
 	color: var(--strong-font-color);
 	background-color: var(--btn-background-color);
 }
+
+.project-board-register-checkbox-area {
+	width: 100%;
+	display: flex;
+	flex-direction: row;
+	flex-wrap: wrap;
+}
+
+.project-board-register-checkbox-area > block {
+	width: 100%;
+	display: flex;
+	flex-direction: row;
+	flex-wrap: wrap;
+}
+
+.projectTechStackCheckBox {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	padding: 0.3rem;
+}
+
+.projectTechStackCheckBox > inupt {
+	width: 5% !important;
+}

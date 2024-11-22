@@ -40,35 +40,40 @@ public class ProjectBoardController {
 //	        @RequestParam("techStacks") String[] techStacks, 
 //	        RedirectAttributes redirectAttributes) {
 //
-//	    // techStacks 배열을 이용해 ProjectTechStack 객체 생성
+//	    // 기술 스택을 List<String>으로 변환
+//	    List<String> techStackList = new ArrayList<>();
 //	    for (String techStackName : techStacks) {
-//	        // 새로운 ProjectTechStack 객체 생성
-//	        ProjectTechStack projectTechStack = new ProjectTechStack();
-//	        projectTechStack.setTechStackName(techStackName);
-//	        projectTechStack.setProject(project);  // 기술 스택이 속한 프로젝트 설정
-//
-//	        // 프로젝트에 기술 스택 추가
-//	        project.getTechStacks().add(projectTechStack);
+//	        techStackList.add(techStackName); // 기술 스택 추가
 //	    }
+//	    
+//	    // 프로젝트에 기술 스택 설정
+//	    project.setTechStacks(techStackList);
 //
-//	    // 프로젝트 저장 (projectRepository.save(project); 사용)
+//	    // 프로젝트 저장
 //	    projectRepo.save(project);
 //
+//	    // 저장된 기술 스택 출력
+//	    String techStacksString = String.join(", ", techStacks);
+//	    System.out.println("Selected techStacks: " + techStacksString);
+//
+//	    // 리다이렉트
 //	    return "redirect:/";
 //	}
-	
+
 	@PostMapping("/register")
 	public String projectBoardRegister(
 	        Project project,
-	        @RequestParam("techStacks") String[] techStacks, 
+	        @RequestParam(value = "techStacks", required = false) String[] techStacks, 
 	        RedirectAttributes redirectAttributes) {
 
 	    // 기술 스택을 List<String>으로 변환
 	    List<String> techStackList = new ArrayList<>();
-	    for (String techStackName : techStacks) {
-	        techStackList.add(techStackName); // 기술 스택 추가
+	    if (techStacks != null) {
+	        for (String techStackName : techStacks) {
+	            techStackList.add(techStackName); // 기술 스택 추가
+	        }
 	    }
-	    
+
 	    // 프로젝트에 기술 스택 설정
 	    project.setTechStacks(techStackList);
 
@@ -76,23 +81,18 @@ public class ProjectBoardController {
 	    projectRepo.save(project);
 
 	    // 저장된 기술 스택 출력
-	    String techStacksString = String.join(", ", techStacks);
-	    System.out.println("Selected techStacks: " + techStacksString);
+	    if (!techStackList.isEmpty()) {
+	        String techStacksString = String.join(", ", techStackList);
+	        System.out.println("Selected techStacks: " + techStacksString);
+	    } else {
+	        System.out.println("No techStacks selected.");
+	    }
 
 	    // 리다이렉트
+	    redirectAttributes.addFlashAttribute("message", "Project successfully registered!");
 	    return "redirect:/";
 	}
 
-
-//	@PostMapping("/register")
-//	public String projectBoardRegister(
-//	        Project project,
-//	        @RequestParam(name = "techStacks", required = false) List<String> techStacks,
-//	        RedirectAttributes redirectAttributes) {
-//		System.out.println(project);
-//		System.out.println("Selected TechStacks: " + techStacks);
-//	    return "redirect:/";
-//	}
 
 	
 	@GetMapping("/detail")

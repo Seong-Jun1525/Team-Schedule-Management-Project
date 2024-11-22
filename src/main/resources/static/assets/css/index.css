@@ -100,6 +100,11 @@ input[type='radio']:checked {
   box-shadow: 0 0 0 0.1rem var(--btn-background-color);
 }
 
+input[type="checkbox"] {
+    width: 1rem;
+    height: 1rem;
+    accent-color: var(--btn-background-color);
+}
 
 h1, h2, h3, h4, h5, h6, p, i, a {
     margin: 0;

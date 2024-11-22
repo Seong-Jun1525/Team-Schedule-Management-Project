@@ -20,6 +20,13 @@
 					<input type="number" name="projectNumberOfPeople" required value="3" readonly />
 				</div>
 				<div class="project-board-register-item">
+					<textarea name="projectContent" placeholder="프로젝트 설명을 입력해주세요"></textarea>
+				</div>
+				<div class="project-board-register-item">
+					<input type="text" name="projectPeriod" />
+				</div>
+				<!--
+				<div class="project-board-register-item">
 				    <select class="projectTechStack" id="availableTechStacks" multiple name="techStacks">
 				        <option value="" disabled selected>기술 스택을 선택하세요</option>
 				        <th:block th:each="techStack : ${techStacks}">
@@ -27,16 +34,29 @@
 				                    th:text="${techStack.techStackName} + ' (' + ${techStack.techStackType} + ')'"></option>
 				        </th:block>
 				    </select>
-				    <!--
 				    <button type="button" id="addTechStackBtn" class="btn-add" onclick="addSelectedTechStack()">추가</button>
 				    <ul id="techStackList"></ul>
-				    -->
 				</div>
+				-->
 				<div class="project-board-register-item">
-					<textarea name="projectContent" placeholder="프로젝트 설명을 입력해주세요"></textarea>
-				</div>
-				<div class="project-board-register-item">
-					<input type="text" name="projectPeriod" />
+					<div class="project-board-register-checkbox-area">
+						<th:block th:each="techStack : ${techStacks}">
+							<div  class="projectTechStackCheckBox">
+								<input
+									type="checkbox"
+									name="techStacks"
+									th:value="${techStack.techStackName}"
+									th:id="${techStack.techStackName}"
+								/>
+								<p>
+									<label
+										th:for="${techStack.techStackName}"
+										th:text="${techStack.techStackName}">
+									</label>
+								</p>
+							</div>
+						</th:block>
+					</div>
 				</div>
 				<button type="submit" class="btn-project-board-register">Register</button>
 			</form>
