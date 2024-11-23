@@ -9,14 +9,17 @@ import com.yuhan.TeamScheduleManagement.domain.Project.ProjectState;
 
 public interface ProjectService {
 	// 프로젝트 등록
-    void projectRegister(List<String> techStackList, Project project);
+    public void projectRegister(List<String> techStackList, Project project);
 
     // 특정 상태의 프로젝트를 페이징 처리하여 조회
-    Page<Project> getProjectState(ProjectState state, int page, int size);
+    public Page<Project> getProjectState(ProjectState state, int page, int size);
 
     // 모든 프로젝트를 페이징 처리하여 조회
-    Page<Project> getAllProjects(int page, int size);
+    public Page<Project> getAllProjects(int page, int size);
     
     // 프로젝트 검색
-	Page<Project> searchProjects(String projectName, int page, int size);
+    public Page<Project> searchProjects(String projectName, int page, int size);
+
+	// 해당 프로젝트 가져오기
+    public Project getProject(Project project);
 }

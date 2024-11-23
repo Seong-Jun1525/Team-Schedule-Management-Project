@@ -75,7 +75,12 @@ public class ProjectBoardController {
 	}
 	
 	@GetMapping("/detail")
-	public String projectBoardDetail() {
+	public String projectBoardDetail(
+			Project project,
+			Model model
+	) {
+		// System.out.println(projectId);
+		model.addAttribute("project", projectService.getProject(project));
 		return "project_board/projectBoardDetail";
 	}
 }

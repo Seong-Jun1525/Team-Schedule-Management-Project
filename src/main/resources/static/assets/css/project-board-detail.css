@@ -33,36 +33,16 @@
 	align-items: flex-end;
 }
 
-.project-board-detail-leader {
+.project-board-detail-leader,
+.project-board-detail-number-of-people,
+.project-board-detail-tech-stack  {
 	display: flex;
 	font-size: 1.5rem;
 }
 
-.project-board-detail-number-of-people {
-	display: flex;
-	font-size: 1.5rem;
-}
-
-.project-board-detail-tech-stack {
-	display: flex;
-	font-size: 1.5rem;
-}
-
-.project-board-detail-tech-stack > span {
-	margin-right: 1rem;
-}
-
-.project-board-detail-tech-stack > span:last-child {
-	margin-right: 0;
-}
-
-.project-board-detail-tech-stack > span > svg {
-	width: 2.3rem;
-	height: 2.3rem;
-	background-color: var(--font-color);
-	border: 0.1rem solid var(--font-color);
-	border-radius: 1rem;
-	padding: 0.3rem;
+.project-board-detail-tech-stack-item > p {
+	margin-left: 1rem;
+	border-bottom: 0.1rem solid var(--font-color);
 }
 
 .project-board-detail-project-period {

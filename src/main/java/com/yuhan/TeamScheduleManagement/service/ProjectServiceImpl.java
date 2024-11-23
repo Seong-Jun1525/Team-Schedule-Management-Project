@@ -49,4 +49,9 @@ public class ProjectServiceImpl implements ProjectService {
 		Pageable pageable = PageRequest.of(page, size);
 	    return projectRepo.findByProjectNameContainingIgnoreCase(projectName, pageable);
 	}
+
+	@Override
+	public Project getProject(Project project) {
+		return projectRepo.findById(project.getProjectId()).get();
+	}
 }
