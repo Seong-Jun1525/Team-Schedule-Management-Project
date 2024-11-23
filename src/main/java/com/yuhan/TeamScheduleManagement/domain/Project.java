@@ -36,8 +36,11 @@ public class Project {
     @Column(nullable = false, length = 255)
     private String projectContent;
 
-    @Column(length = 100)
-    private String projectPeriod; // "YY-MM-DD ~ YY-MM-DD" 형식
+    @Column(nullable = false, length = 30)
+    private String projectStartDate;
+
+    @Column(nullable = false, length = 30)
+    private String projectEndDate;
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false, length = 10)

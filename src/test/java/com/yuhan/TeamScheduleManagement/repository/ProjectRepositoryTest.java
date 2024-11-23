@@ -22,7 +22,8 @@ public class ProjectRepositoryTest {
 		project.setNumberOfPeople(3);
 		project.setProjectContent("TestTestTest");
 		project.setProjectGoal("Test Goal");
-		project.setProjectPeriod("24-11-01 ~ 24-12-01");
+		project.setProjectStartDate("24-11-01");
+		project.setProjectEndDate("24-12-01");
 		project.setProjectState(ProjectState.BEFORE);
 
 		projectRepo.save(project);

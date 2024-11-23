@@ -9,245 +9,78 @@
 			<button class="search-btn">검색</button>
 		</div>
 	</search>
-	<div class="board">
-		<div class="board-container">
-			<div class="board-title">
-				<div class="board-item">
+	<div class="project">
+		<div class="project-container">
+			<div class="project-title">
+				<div class="project-item">
 					<p>NUM</p>
 				</div>
-				<div class="board-item">
+				<div class="project-item">
 					<p>TITLE</p>
 				</div>
-				<div class="board-item">
+				<div class="project-item">
 					<p>WRITER</p>
 				</div>
-				<div class="board-item">
+				<div class="project-item">
 					<p>DATE</p>
 				</div>
-				<div class="board-item">
-					<p>COUNT</p>
-				</div>
 			</div>
 		</div>
-		<div class="board-container">
-			<div class="board-content">
-				<div class="board-item">
-					<p>1</p>
-				</div>
-				<div class="board-item">
-					<p>
-						<a 
-							href="#" 
-							th:data-url="@{project-board/detail}" 
-							onclick="loadContent(event)"
-						>
-							프로젝트 팀원 구합니다.
-						</a>
-					</p>
-				</div>
-				<div class="board-item">
-					<p>임성준</p>
-				</div>
-				<div class="board-item">
-					<p>YYYY-MM-DD</p>
-				</div>
-				<div class="board-item">
-					<p>12</p>
-				</div>
-			</div>
-		</div>
-		
-		<div class="board-container">
-			<div class="board-content">
-				<div class="board-item">
-					<p>2</p>
-				</div>
-				<div class="board-item">
-					<p>프로젝트 팀원 구합니다.</p>
-				</div>
-				<div class="board-item">
-					<p>임성준</p>
-				</div>
-				<div class="board-item">
-					<p>YYYY-MM-DD</p>
-				</div>
-				<div class="board-item">
-					<p>12</p>
+		<th:block th:each="projectItem, rowStat : ${projectList}">
+			<div class="project-container">
+				<div class="project-content">
+					<div class="project-item">
+						<p th:text="${rowStat.index + 1}">1</p>
+					</div>
+					<div class="project-item">
+						<p>
+							<a 
+								href="#" 
+								th:data-url="@{project-board/detail(projectId = ${projectItem.projectId})}" 
+								th:text="${projectItem.projectName}"
+								onclick="loadContent(event)"
+							>
+							</a>
+						</p>
+					</div>
+					<div class="project-item">
+						<p th:text="${projectItem.projectLeader}"></p>
+					</div>
+					<div class="project-item">
+						<p>
+							<span th:text="${projectItem.projectStartDate}"></span>
+							~
+							<span th:text="${projectItem.projectEndDate}"></span>
+						</p>
+						
+					</div>
 				</div>
 			</div>
-		</div>
-		
-		<div class="board-container">
-			<div class="board-content">
-				<div class="board-item">
-					<p>3</p>
-				</div>
-				<div class="board-item">
-					<p>프로젝트 팀원 구합니다.</p>
-				</div>
-				<div class="board-item">
-					<p>임성준</p>
-				</div>
-				<div class="board-item">
-					<p>YYYY-MM-DD</p>
-				</div>
-				<div class="board-item">
-					<p>12</p>
-				</div>
-			</div>
-		</div>
-		
-		<div class="board-container">
-			<div class="board-content">
-				<div class="board-item">
-					<p>4</p>
-				</div>
-				<div class="board-item">
-					<p>프로젝트 팀원 구합니다.</p>
-				</div>
-				<div class="board-item">
-					<p>임성준</p>
-				</div>
-				<div class="board-item">
-					<p>YYYY-MM-DD</p>
-				</div>
-				<div class="board-item">
-					<p>12</p>
-				</div>
-			</div>
-		</div>
-		
-		<div class="board-container">
-			<div class="board-content">
-				<div class="board-item">
-					<p>5</p>
-				</div>
-				<div class="board-item">
-					<p>프로젝트 팀원 구합니다.</p>
-				</div>
-				<div class="board-item">
-					<p>임성준</p>
-				</div>
-				<div class="board-item">
-					<p>YYYY-MM-DD</p>
-				</div>
-				<div class="board-item">
-					<p>12</p>
-				</div>
-			</div>
-		</div>
-		<div class="board-container">
-			<div class="board-content">
-				<div class="board-item">
-					<p>6</p>
-				</div>
-				<div class="board-item">
-					<p>프로젝트 팀원 구합니다.</p>
-				</div>
-				<div class="board-item">
-					<p>임성준</p>
-				</div>
-				<div class="board-item">
-					<p>YYYY-MM-DD</p>
-				</div>
-				<div class="board-item">
-					<p>12</p>
-				</div>
-			</div>
-		</div>
-		<div class="board-container">
-			<div class="board-content">
-				<div class="board-item">
-					<p>7</p>
-				</div>
-				<div class="board-item">
-					<p>프로젝트 팀원 구합니다.</p>
-				</div>
-				<div class="board-item">
-					<p>임성준</p>
-				</div>
-				<div class="board-item">
-					<p>YYYY-MM-DD</p>
-				</div>
-				<div class="board-item">
-					<p>12</p>
-				</div>
-			</div>
-		</div>
-		<div class="board-container">
-			<div class="board-content">
-				<div class="board-item">
-					<p>8</p>
-				</div>
-				<div class="board-item">
-					<p>프로젝트 팀원 구합니다.</p>
-				</div>
-				<div class="board-item">
-					<p>임성준</p>
-				</div>
-				<div class="board-item">
-					<p>YYYY-MM-DD</p>
-				</div>
-				<div class="board-item">
-					<p>12</p>
-				</div>
-			</div>
-		</div>
-		<div class="board-container">
-			<div class="board-content">
-				<div class="board-item">
-					<p>9</p>
-				</div>
-				<div class="board-item">
-					<p>프로젝트 팀원 구합니다.</p>
-				</div>
-				<div class="board-item">
-					<p>임성준</p>
-				</div>
-				<div class="board-item">
-					<p>YYYY-MM-DD</p>
-				</div>
-				<div class="board-item">
-					<p>12</p>
-				</div>
-			</div>
-		</div>
-		<div class="board-container">
-			<div class="board-content">
-				<div class="board-item">
-					<p>10</p>
-				</div>
-				<div class="board-item">
-					<p>프로젝트 팀원 구합니다.</p>
-				</div>
-				<div class="board-item">
-					<p>임성준</p>
-				</div>
-				<div class="board-item">
-					<p>YYYY-MM-DD</p>
-				</div>
-				<div class="board-item">
-					<p>12</p>
-				</div>
-			</div>
-		</div>
+		</th:block>
 	</div>
 	<div class="page-num-wrapper">
-		<div class="page-num-container">
+	    <div class="page-num-container">
 			<div class="page-num">
-				<span>
-					<i class="fa-solid fa-chevron-left"></i>
-				</span>
-				<span class="page-num-item">1</span>
-				<span class="page-num-item">2</span>
-				<span class="page-num-item">3</span>
-				<span>
-					<i class="fa-solid fa-chevron-right"></i>
-				</span>
+		        <span th:if="${currentPage > 0}">
+		            <a href="#" th:href="@{/(page=${currentPage - 1})}">
+		                <i class="fa-solid fa-chevron-left"></i>
+		            </a>
+		        </span>
+		        <span th:each="i : ${#numbers.sequence(0, totalPages - 1)}">
+		            <a href="#" th:href="@{/(page=${i})}" 
+		               th:classappend="${i == currentPage} ? 'active' : ''">
+		                <span th:text="${i + 1}"></span>
+		            </a>
+		        </span>
+		        <span th:if="${currentPage < totalPages - 1}">
+		            <a href="#" th:href="@{/(page=${currentPage + 1})}">
+		                <i class="fa-solid fa-chevron-right"></i>
+		            </a>
+		        </span>
 			</div>
 			<div class="project-register-btn">
 				<a href="#" th:data-url="@{project-board/register}" onclick="loadContent(event)">프로젝트 등록</a>
 			</div>
-		</div>
+	    </div>
 	</div>
 </div>
