@@ -16,4 +16,7 @@ public interface ProjectService {
 
     // 모든 프로젝트를 페이징 처리하여 조회
     Page<Project> getAllProjects(int page, int size);
+    
+    // 프로젝트 검색
+	Page<Project> searchProjects(String projectName, int page, int size);
 }

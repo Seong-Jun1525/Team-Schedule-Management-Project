@@ -1,13 +1,13 @@
 <div xmlns:th="http://www.thymeleaf.org" th:fragment="defaultContentFragment">
 	<search>
-		<div class="page-title">
+		<form action="/project-board/search" method="get" class="page-title">
 			<p>프로젝트 찾는 중...</p>
 			<label for="search-project-input">
 				<i class="fa-solid fa-magnifying-glass"></i>
 			</label>
-			<input id="search-project-input" class="search-project" name="project_name" type="text" />
-			<button class="search-btn">검색</button>
-		</div>
+			<input type="search" id="search-project-input" class="search-project" name="projectName" />
+			<button type="submit" class="search-btn">검색</button>
+		</form>
 	</search>
 	<div class="project">
 		<div class="project-container">

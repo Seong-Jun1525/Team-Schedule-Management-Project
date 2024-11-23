@@ -43,4 +43,10 @@ public class ProjectServiceImpl implements ProjectService {
         Pageable paging = PageRequest.of(page, size);
         return projectRepo.findAll(paging);
     }
+
+	@Override
+	public Page<Project> searchProjects(String projectName, int page, int size) {
+		Pageable pageable = PageRequest.of(page, size);
+	    return projectRepo.findByProjectNameContainingIgnoreCase(projectName, pageable);
+	}
 }
