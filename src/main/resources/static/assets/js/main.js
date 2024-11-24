@@ -11,6 +11,8 @@ function loadContent(event) {
     .then(response => response.text())
     .then(data => {
         document.getElementById('main-content').innerHTML = data;
+		
+		initializeDynamicContent();
     })
     .catch(error => {
         console.error('Error fetching content:', error);
