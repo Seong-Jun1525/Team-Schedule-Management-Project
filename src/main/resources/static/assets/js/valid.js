@@ -1,8 +1,8 @@
-function initializeDynamicContent() {
+function initializeValid() {
 	// 회원가입 폼 유효성 검사
-    const signInform = document.getElementById('sign-up-form');
-    if (signInform) {
-        form.addEventListener('submit', function (e) {
+    const signUpform = document.getElementById('sign-up-form');
+    if (signUpform) {
+        signUpform.addEventListener('submit', function (e) {
             e.preventDefault(); // 기본 제출 동작 중단
 
             let isValid = true;
@@ -60,7 +60,7 @@ function initializeDynamicContent() {
 
             // 유효성 검사가 성공하면 AJAX 요청
             if (isValid) {
-                const formData = new FormData(form);
+                const formData = new FormData(signUpform);
                 const formObject = Object.fromEntries(formData.entries());
 
                 fetch('/member/sign-up', {

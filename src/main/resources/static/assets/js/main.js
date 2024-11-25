@@ -12,7 +12,7 @@ function loadContent(event) {
     .then(data => {
         document.getElementById('main-content').innerHTML = data;
 		
-		initializeDynamicContent();
+		initializeValid();
     })
     .catch(error => {
         console.error('Error fetching content:', error);

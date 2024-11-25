@@ -6,18 +6,18 @@ import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.yuhan.TeamScheduleManagement.domain.User;
+import com.yuhan.TeamScheduleManagement.domain.User.UserState;
 import com.yuhan.TeamScheduleManagement.service.UserService;
 import com.yuhan.TeamScheduleManagement.util.HashUtil;
+
+import jakarta.servlet.http.HttpSession;
 
 
 @Controller
@@ -68,7 +68,7 @@ public class MemberController {
     
     @PostMapping("/sign-in")
     @ResponseBody
-    public Map<String, String> signIn(@RequestBody User user) {
+    public Map<String, String> signIn(@RequestBody User user, HttpSession session) {
     	Map<String, String> response = new HashMap<>();
         try {
             // 아이디로 사용자 검색
@@ -92,6 +92,11 @@ public class MemberController {
             }
 
             // 로그인 성공
+            userService.updateUserStateLogin(foundUser);
+            
+            session.setAttribute("userId", foundUser.getUserId()); // 세션에 사용자 ID 저장
+            session.setAttribute("userName", foundUser.getUserName()); // 세션에 사용자 이름 저장
+            
             response.put("status", "success");
             response.put("message", "로그인에 성공했습니다.");
             // 필요시 세션이나 토큰 생성 로직 추가 가능
@@ -111,8 +116,28 @@ public class MemberController {
     }
 
     @GetMapping("/logout")
-    public String logout() {
-    	// 로그아웃 구현 로직
+    public String logout(HttpSession session) {
+        // 1. 세션에서 사용자 ID 가져오기
+        String userId = (String) session.getAttribute("userId");
+
+        if (userId != null) {
+            // 2. 데이터베이스에서 사용자 정보 가져오기
+            User user = new User();
+            user.setUserId(userId);
+            Optional<User> existingUser = userService.getUser(user);
+
+            if (existingUser.isPresent()) {
+                User foundUser = existingUser.get();
+                foundUser.setUserState(UserState.OFFLINE);
+                userService.updateUserStateLogout(foundUser);
+            }
+        }
+
+        // 4. 세션 무효화
+        session.invalidate();
+
+        // 5. 메인 페이지로 리다이렉트
         return "redirect:/";
     }
+
 }
