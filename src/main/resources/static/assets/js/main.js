@@ -1,3 +1,4 @@
+/*
 function loadContent(event) {
     event.preventDefault();
     const url = event.target.closest('a').getAttribute('data-url');
@@ -34,6 +35,74 @@ function loadSideContent(event) {
     .catch(error => {
         console.error('Error fetching content:', error);
     });
+}
+*/
+function loadContent(event) {
+    event.preventDefault();
+    const anchor = event.target.closest('a');
+    const url = anchor ? anchor.getAttribute('data-url') : null;
+/*
+    if (!url) {
+        console.error("URL이 유효하지 않습니다.");
+        alert("요청을 처리할 수 없습니다. 올바른 링크를 클릭했는지 확인하세요.");
+        return;
+    }
+*/
+    fetch(url, {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'text/html',
+        },
+    })
+        .then((response) => {
+			/*
+            if (!response.ok) {
+                throw new Error(`HTTP error! Status: ${response.status}`);
+            }
+            */
+            return response.text();
+        })
+        .then((data) => {
+            document.getElementById('main-content').innerHTML = data;
+        })
+        /*
+        .catch((error) => {
+            console.error('Content fetch error:', error);
+            alert('컨텐츠를 불러오는 중 문제가 발생했습니다. 다시 시도해주세요.');
+        });
+        */
+}
+
+function loadSideContent(event) {
+    event.preventDefault();
+    const anchor = event.target.closest('a');
+    const url = anchor ? anchor.getAttribute('data-url') : null;
+
+    if (!url) {
+        console.error("URL이 유효하지 않습니다.");
+        alert("요청을 처리할 수 없습니다. 올바른 링크를 클릭했는지 확인하세요.");
+        return;
+    }
+
+    fetch(url, {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'text/html',
+        },
+    })
+        .then((response) => {
+            if (!response.ok) {
+                throw new Error(`HTTP error! Status: ${response.status}`);
+            }
+            return response.text();
+        })
+        .then((data) => {
+            document.getElementById('side-content').innerHTML = data;
+        })
+        .catch((error) => {
+            console.error('Content fetch error:', error);
+            alert('컨텐츠를 불러오는 중 문제가 발생했습니다. 다시 시도해주세요.');
+        });
 }
 
 function addSelectedTechStack() {

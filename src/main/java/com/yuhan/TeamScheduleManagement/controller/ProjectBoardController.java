@@ -2,6 +2,7 @@ package com.yuhan.TeamScheduleManagement.controller;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -68,19 +69,26 @@ public class ProjectBoardController {
 	        @RequestParam(defaultValue = "10") int size,
 	        Model model) {
 	    Page<Project> searchResults = projectService.searchProjects(projectName, page, size);
+	    
+	    System.out.println("searchResults : " + searchResults.getContent());
+
 	    model.addAttribute("projectList", searchResults.getContent());
 	    model.addAttribute("currentPage", searchResults.getNumber());
 	    model.addAttribute("totalPages", searchResults.getTotalPages());
 	    return "index";
 	}
-	
+
 	@GetMapping("/detail")
-	public String projectBoardDetail(
-			Project project,
-			Model model
-	) {
-		// System.out.println(projectId);
-		model.addAttribute("project", projectService.getProject(project));
-		return "project_board/projectBoardDetail";
+	public String projectBoardDetail(@RequestParam int projectId, Model model) {
+		System.out.println("projectId : " + projectId);
+		Optional<Project> project = projectService.getProject(projectId);
+	    if (project.isPresent()) {
+	        model.addAttribute("project", project.get());
+	    }
+	    else {
+	        return "error/error";
+	    }
+	    return "project_board/projectBoardDetail";
 	}
+
 }

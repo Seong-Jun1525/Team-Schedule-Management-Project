@@ -1,6 +1,7 @@
 package com.yuhan.TeamScheduleManagement.service;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.data.domain.Page;
 
@@ -21,5 +22,5 @@ public interface ProjectService {
     public Page<Project> searchProjects(String projectName, int page, int size);
 
 	// 해당 프로젝트 가져오기
-    public Project getProject(Project project);
+	public Optional<Project> getProject(int projectId);
 }

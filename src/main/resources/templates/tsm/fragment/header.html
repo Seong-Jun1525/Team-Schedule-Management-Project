@@ -1,10 +1,10 @@
 <!-- header -->
 <header th:fragment="headerFlagment">
 	<div class="quick-menu">
-		<a href="#" title="회원가입" th:data-url="@{member/sign-up}" onclick="loadContent(event)">
+		<a href="javascript:void(0)" title="회원가입" th:data-url="@{/member/sign-up}" onclick="loadContent(event)">
 			<i class="fa-solid fa-user-plus"></i>
 		</a>
-		<a href="#" title="로그인" th:data-url="@{member/sign-in}" onclick="loadContent(event)">
+		<a href="javascript:void(0)" title="로그인" th:data-url="@{/member/sign-in}" onclick="loadContent(event)">
 			<i class="fa-solid fa-arrow-right-to-bracket"></i>
 		</a>
 		<!-- 현재 새로고침으로 구현. 추후 로그아웃 기능 구현 바람. -->
@@ -20,15 +20,15 @@
 			</a>
 			
 			<!-- team -->
-			<a href="#" th:data-url="@{team/register}" title="팀 생성" onclick="loadContent(event)">
+			<a href="javascript:void(0)" th:data-url="@{/team/register}" title="팀 생성" onclick="loadContent(event)">
 				<span>Register Team</span>
 			</a>
 			
-			<a href="#" th:data-url="@{my-team/}" title="나의 팀" onclick="loadContent(event)">
+			<a href="javascript:void(0)" th:data-url="@{/my-team/}" title="나의 팀" onclick="loadContent(event)">
 				<span>My Team</span>
 			</a>
 			
-			<a href="#" th:data-url="@{member/my-info}" title="마이페이지" onclick="loadContent(event)">
+			<a href="javascript:void(0)" th:data-url="@{/member/my-info}" title="마이페이지" onclick="loadContent(event)">
 				<span>My Info</span>
 			</a>
 		</div>

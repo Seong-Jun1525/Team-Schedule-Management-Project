@@ -1,6 +1,7 @@
 package com.yuhan.TeamScheduleManagement.service;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -19,7 +20,6 @@ public class ProjectServiceImpl implements ProjectService {
 
 	@Override
 	public void projectRegister(List<String> techStackList, Project project) {
-		// TODO Auto-generated method stub
 		project.setTechStacks(techStackList);
 
 	    projectRepo.save(project);
@@ -51,7 +51,8 @@ public class ProjectServiceImpl implements ProjectService {
 	}
 
 	@Override
-	public Project getProject(Project project) {
-		return projectRepo.findById(project.getProjectId()).get();
+	public Optional<Project> getProject(int projectId) {
+		// TODO Auto-generated method stub
+		return projectRepo.findById(projectId);
 	}
 }

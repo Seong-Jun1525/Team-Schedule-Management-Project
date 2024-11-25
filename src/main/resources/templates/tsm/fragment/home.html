@@ -27,6 +27,7 @@
 			</div>
 		</div>
 		<th:block th:each="projectItem, rowStat : ${projectList}">
+			<!--<p th:text="${projectItem}"></p>-->
 			<div class="project-container">
 				<div class="project-content">
 					<div class="project-item">
@@ -35,11 +36,10 @@
 					<div class="project-item">
 						<p>
 							<a 
-								href="#" 
-								th:data-url="@{project-board/detail(projectId = ${projectItem.projectId})}" 
-								th:text="${projectItem.projectName}"
-								onclick="loadContent(event)"
-							>
+							    href="#"
+							    th:data-url="@{/project-board/detail(projectId=${projectItem.projectId})}" 
+							    th:text="${projectItem.projectName}" 
+							    onclick="loadContent(event)">
 							</a>
 						</p>
 					</div>
@@ -52,7 +52,6 @@
 							~
 							<span th:text="${projectItem.projectEndDate}"></span>
 						</p>
-						
 					</div>
 				</div>
 			</div>
