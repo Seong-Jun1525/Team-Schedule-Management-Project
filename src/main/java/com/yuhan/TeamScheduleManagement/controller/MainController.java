@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.yuhan.TeamScheduleManagement.domain.Project;
 import com.yuhan.TeamScheduleManagement.service.ProjectService;
 
+import jakarta.servlet.http.HttpSession;
+
 @Controller
 @RequestMapping("/")
 public class MainController {
@@ -22,8 +24,15 @@ public class MainController {
 	public String home(
 	        @RequestParam(defaultValue = "0") int page, 
 	        @RequestParam(defaultValue = "10") int size, 
+	        HttpSession session,
 	        Model model) {
 
+		// 세션 값 가져오기
+		String userName = (String) session.getAttribute("userName");
+		if(userName != null) {
+			model.addAttribute("userName", userName);
+		}
+		
 	    // 특정 상태의 프로젝트 페이징 처리
 	    Page<Project> projectPage = projectService.getProjectState(Project.ProjectState.BEFORE, page, size);
 

@@ -1,18 +1,22 @@
 <html xmlns:th="http://www.thymeleaf.org">
-	<div class="sign-in-wrapper">
-		<div class="sign-in-container">
-			<div class="sign-in-header">
-				<p>Sign In</p>
-			</div>
-			<div class="sign-in-content">
-				<div class="form-item">
-					<input type="text" placeholder="아이디를 입력해주세요" />
+	<form id="sign-in-form" th:action="@{/member/sign-in}" method="post">
+		<div class="sign-in-wrapper">
+			<div class="sign-in-container">
+				<div class="sign-in-header">
+					<p>Sign In</p>
 				</div>
-				<div class="form-item">
-					<input type="password" placeholder="패스워드를 입력해주세요" />
+				<div class="sign-in-content">
+					<div class="form-item">
+						<input type="text" name="userId" placeholder="아이디를 입력해주세요" />
+						<div class="error-msg"></div>
+					</div>
+					<div class="form-item">
+						<input type="password" name="userPw" placeholder="패스워드를 입력해주세요" />
+						<div class="error-msg"></div>
+					</div>
+					<button type="submit" class="sign-in-btn">Sign In</button>
 				</div>
-				<button type="submit" class="sign-in-btn">Sign In</button>
 			</div>
 		</div>
-	</div>
+	</form>
 </html>

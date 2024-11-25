@@ -136,3 +136,11 @@
 	align-items: center;
 	justify-content: center;
 }
+
+.welcome-message {
+    font-family: 'GowunDodum-Regular', sans-serif; /* 전체 사이트와 동일한 폰트 */
+    font-size: 1.2rem; /* 크기는 필요에 따라 조정 */
+    font-weight: bold; /* 굵게 표시 */
+    color: var(--font-color); /* 사이트의 강조 색상 */
+    margin-left: 1rem; /* 필요에 따라 간격 조정 */
+}
