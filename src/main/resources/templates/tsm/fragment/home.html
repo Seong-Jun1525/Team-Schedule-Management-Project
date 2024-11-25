@@ -1,11 +1,10 @@
 <div xmlns:th="http://www.thymeleaf.org" th:fragment="defaultContentFragment">
 	<search>
 		<form action="/project-board/search" method="get" class="page-title">
-			<p>프로젝트 찾는 중...</p>
 			<label for="search-project-input">
 				<i class="fa-solid fa-magnifying-glass"></i>
 			</label>
-			<input type="search" id="search-project-input" class="search-project" name="projectName" />
+			<input type="search" id="search-project-input" class="search-project" name="projectName" placeholder="프로젝트 찾는 중..." />
 			<button type="submit" class="search-btn">검색</button>
 		</form>
 	</search>
@@ -77,8 +76,8 @@
 		            </a>
 		        </span>
 			</div>
-			<div class="project-register-btn">
-				<a href="#" th:data-url="@{project-board/register}" onclick="loadContent(event)">프로젝트 등록</a>
+			<div>
+				<a class="project-register-btn" href="#" th:data-url="@{project-board/register}" onclick="loadContent(event)">프로젝트 등록</a>
 			</div>
 	    </div>
 	</div>
