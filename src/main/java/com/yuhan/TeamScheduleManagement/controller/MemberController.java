@@ -6,6 +6,7 @@ import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -110,10 +111,81 @@ public class MemberController {
     }
     
     @GetMapping("/my-info")
-    public String myInfoPage() {
-    	// 로그인 구현 로직
-        return "member/myInfo";
+    public String myInfoPage(HttpSession session, Model model) {
+    	// 마이페이지 로직
+        // 세션에서 userId 확인
+        String userId = (String) session.getAttribute("userId");
+
+        if (userId == null) {
+            // 세션이 없는 경우 로그인 페이지로 리다이렉트
+            return "redirect:/member/sign-in";
+        }
+
+        // 세션이 존재하는 경우 사용자 정보 가져오기
+        User user = new User();
+        user.setUserId(userId);
+        Optional<User> existingUser = userService.getUser(user);
+
+        if (existingUser.isPresent()) {
+            // 사용자 정보를 모델에 추가
+            model.addAttribute("userInfo", existingUser.get());
+            return "member/myInfo";
+        } else {
+            // 사용자가 없는 경우 에러 페이지나 기본 페이지로 이동
+            return "redirect:/";
+        }
     }
+
+    
+    @PostMapping("/update-user-info")
+    @ResponseBody
+    public Map<String, String> updateUserInfo(@RequestBody User user, HttpSession session) {
+        Map<String, String> response = new HashMap<>();
+
+        try {
+            // 세션에서 userId 확인
+            String userId = (String) session.getAttribute("userId");
+
+            if (userId == null) {
+                response.put("status", "error");
+                response.put("message", "로그인이 필요합니다.");
+                return response;
+            }
+
+            // 업데이트 요청된 userId가 세션과 일치하는지 확인
+            if (!userId.equals(user.getUserId())) {
+                response.put("status", "error");
+                response.put("message", "잘못된 요청입니다.");
+                return response;
+            }
+
+            // 사용자 정보 업데이트
+            userService.updateUser(user);
+
+            // 수정된 정보를 다시 가져와 세션 값 업데이트
+            Optional<User> updatedUserOpt = userService.getUser(user);
+            if (updatedUserOpt.isPresent()) {
+                User updatedUser = updatedUserOpt.get();
+
+                // 세션 값 갱신
+                session.setAttribute("userId", updatedUser.getUserId());
+                session.setAttribute("userName", updatedUser.getUserName());
+
+                response.put("status", "success");
+                response.put("message", "회원정보가 성공적으로 업데이트되었습니다.");
+            } else {
+                response.put("status", "error");
+                response.put("message", "업데이트된 사용자 정보를 가져올 수 없습니다.");
+            }
+        } catch (Exception e) {
+            response.put("status", "error");
+            response.put("message", "서버 오류가 발생했습니다. 다시 시도해주세요.");
+            e.printStackTrace();
+        }
+
+        return response;
+    }
+
 
     @GetMapping("/logout")
     public String logout(HttpSession session) {

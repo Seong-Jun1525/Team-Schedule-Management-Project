@@ -1,0 +1,46 @@
+<form id="my-page-form" th:action="@{/member/update-user-info}" method="post">
+    <div class="my-page-wrapper">
+        <div class="my-page-container">
+            <div class="my-page-header">
+                <p>My Info</p>
+            </div>
+            <div class="my-page-content">
+                <div class="form-item">
+                    <input type="text" name="userId" th:value="${userInfo.userId}" readonly />
+                    <div class="error-msg"></div>
+                </div>
+                <div class="form-item">
+                    <input type="password" name="userPw" placeholder="패스워드를 입력해주세요(입력이 없을 시 수정X)" />
+                    <div class="error-msg"></div>
+                </div>
+                <div class="form-item">
+                    <input type="text" name="userName" th:value="${userInfo.userName}" placeholder="성함을 입력해주세요" />
+                    <div class="error-msg"></div>
+                </div>
+                <div class="form-item">
+                    <input type="email" name="userEmail" th:value="${userInfo.userEmail}" placeholder="email을 입력해주세요" />
+                    <div class="error-msg"></div>
+                </div>
+                <div class="form-item">
+                    <p><input type="radio" id="man-radio" name="userGender" value="MAN" th:checked="${userInfo.userGender?.toString() == 'MAN'}" /> <label for="man-radio">Man</label></p>
+                    <p><input type="radio" id="woman-radio" name="userGender" value="WOMAN" th:checked="${userInfo.userGender?.toString() == 'WOMAN'}" /> <label for="woman-radio">Woman</label></p>
+                    <p><input type="radio" id="anonym-radio" name="userGender" value="ANONYM" th:checked="${userInfo.userGender?.toString() == 'ANONYM'}" /> <label for="anonym-radio">Anonym</label></p>
+                    <div class="error-msg"></div>
+                </div>
+                <div class="form-item">
+                    <select name="userJob">
+                        <option th:selected="${userInfo.userJob == 'PM'}">PM</option>
+                        <option th:selected="${userInfo.userJob == '프론트엔드 개발자'}">프론트엔드 개발자</option>
+                        <option th:selected="${userInfo.userJob == '백엔드 개발자'}">백엔드 개발자</option>
+                        <option th:selected="${userInfo.userJob == 'DBA'}">DBA</option>
+                        <option th:selected="${userInfo.userJob == 'UI/UX 디자이너'}">UI/UX 디자이너</option>
+                        <option th:selected="${userInfo.userJob == 'QA 엔지니어'}">QA 엔지니어</option>
+                    </select>
+                    <div class="error-msg"></div>
+                </div>
+                <button type="submit" class="info-update-btn">Update Info</button>
+                <button type="button" class="with-draw-btn" onclick="withdraw()">WithDraw</button>
+            </div>
+        </div>
+    </div>
+</form>

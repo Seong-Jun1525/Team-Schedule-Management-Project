@@ -26,14 +26,44 @@ public class UserServiceImpl implements UserService{
 	@Override
 	public void updateUser(User user) {
 		// TODO 회원정보 수정 기능
+	    // 회원 정보 수정 기능
+	    if (user == null || user.getUserId() == null) {
+	        throw new IllegalArgumentException("Invalid user data.");
+	    }
+
+	    // 기존 사용자 정보 가져오기
+	    Optional<User> existingUser = userRepo.findById(user.getUserId());
+	    if (existingUser.isEmpty()) {
+	        throw new IllegalArgumentException("User not found.");
+	    }
+
+	    User updateUser = existingUser.get();
+
+	    // 수정 가능한 필드 업데이트 (입력값 존재 시 업데이트)
+	    if (user.getUserPw() != null && !user.getUserPw().isEmpty()) {
+	        updateUser.setUserPw(HashUtil.hashPassword(user.getUserPw())); // 비밀번호 암호화
+	    }
+	    if (user.getUserName() != null) {
+	        updateUser.setUserName(user.getUserName());
+	    }
+	    if (user.getUserEmail() != null) {
+	        updateUser.setUserEmail(user.getUserEmail());
+	    }
+	    if (user.getUserGender() != null) {
+	        updateUser.setUserGender(user.getUserGender());
+	    }
+	    if (user.getUserJob() != null) {
+	        updateUser.setUserJob(user.getUserJob());
+	    }
+
+	    // 변경사항 저장
+	    userRepo.save(updateUser);
 		
 	}
 	
-
-
 	@Override
 	public Optional<User> getUser(User user) {
-		// 회원정보 가져오기 기능
+		// TODO 회원정보 가져오기 기능
 		Optional<User> userInfo = userRepo.findById(user.getUserId());
 		return userInfo;
 	}
