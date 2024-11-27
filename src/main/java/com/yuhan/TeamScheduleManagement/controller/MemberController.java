@@ -185,10 +185,42 @@ public class MemberController {
 
         return response;
     }
+    
+    @PostMapping("/withdraw")
+    @ResponseBody
+    public Map<String, String> withdraw(HttpSession session) {
+        Map<String, String> response = new HashMap<>();
 
+        try {
+            // 세션에서 userId 가져오기
+            String userId = (String) session.getAttribute("userId");
+
+            if (userId == null) {
+                response.put("status", "error");
+                response.put("message", "로그인이 필요합니다.");
+                return response;
+            }
+
+            // 회원 삭제 로직 실행
+            userService.deleteUser(userId);
+
+            // 세션 무효화
+            session.invalidate();
+
+            response.put("status", "success");
+            response.put("message", "회원탈퇴가 완료되었습니다.");
+        } catch (Exception e) {
+            response.put("status", "error");
+            response.put("message", "서버 오류가 발생했습니다. 다시 시도해주세요.");
+            e.printStackTrace();
+        }
+
+        return response;
+    }
 
     @GetMapping("/logout")
     public String logout(HttpSession session) {
+    	// 로그아웃 구현 로직
         // 1. 세션에서 사용자 ID 가져오기
         String userId = (String) session.getAttribute("userId");
 
@@ -211,5 +243,6 @@ public class MemberController {
         // 5. 메인 페이지로 리다이렉트
         return "redirect:/";
     }
+    
 
 }

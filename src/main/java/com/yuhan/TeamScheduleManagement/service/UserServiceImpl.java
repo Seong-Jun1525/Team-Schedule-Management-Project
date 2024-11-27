@@ -62,13 +62,6 @@ public class UserServiceImpl implements UserService{
 	}
 	
 	@Override
-	public Optional<User> getUser(User user) {
-		// TODO 회원정보 가져오기 기능
-		Optional<User> userInfo = userRepo.findById(user.getUserId());
-		return userInfo;
-	}
-
-	@Override
 	public void updateUserStateLogin(User user) {
 		// TODO 로그인 시 회원 상태 변경
         user.setUserState(UserState.ONLINE);
@@ -81,6 +74,24 @@ public class UserServiceImpl implements UserService{
         user.setUserState(UserState.OFFLINE);
         userRepo.save(user);
 		
+	}
+	
+	@Override
+	public void deleteUser(String userId) {
+		// TODO 회원탈퇴 기능
+	    try {
+	        userRepo.deleteById(userId);
+	    } catch (Exception e) {
+	        throw new RuntimeException("회원 탈퇴 중 오류 발생: " + e.getMessage());
+	    }
+	}
+
+	
+	@Override
+	public Optional<User> getUser(User user) {
+		// TODO 회원정보 가져오기 기능
+		Optional<User> userInfo = userRepo.findById(user.getUserId());
+		return userInfo;
 	}
 
 }
