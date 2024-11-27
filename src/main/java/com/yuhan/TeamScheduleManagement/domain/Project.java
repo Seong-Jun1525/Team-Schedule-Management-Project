@@ -23,9 +23,12 @@ public class Project {
 
     @Column(nullable = false, length = 50, unique = true)
     private String projectName;
+    
+    @Column(nullable = false, length = 50)
+    private String projectTeamName;
 
     @Column(nullable = false, length = 20)
-    private String projectLeader; // 프로젝트 리더 ID
+    private String projectLeader;
 
     @Column(nullable = false)
     private int numberOfPeople = 1;

@@ -11,13 +11,16 @@
 					<input type="text" name="projectName" required placeholder="프로젝트 명을 입력해주세요" />
 				</div>
 				<div class="project-board-register-item">
+					<input type="text" name="projectTeamName" required th:value="${teamInfo.teamName}" readonly />
+				</div>
+				<div class="project-board-register-item">
 					<input type="text" name="projectGoal" required placeholder="프로젝트 목표를 입력해주세요" />
 				</div>
 				<div class="project-board-register-item">
-					<input type="text" name="projectLeader" required value="userID" readonly />
+					<input type="text" name="projectLeader" required th:value="${userId}" readonly />
 				</div>
 				<div class="project-board-register-item">
-					<input type="number" name="projectNumberOfPeople" required value="3" readonly />
+					<input type="number" name="projectNumberOfPeople" required th:value="${teamInfo.numberOfPeople}" readonly />
 				</div>
 				<div class="project-board-register-item">
 					<textarea name="projectContent" placeholder="프로젝트 설명을 입력해주세요"></textarea>

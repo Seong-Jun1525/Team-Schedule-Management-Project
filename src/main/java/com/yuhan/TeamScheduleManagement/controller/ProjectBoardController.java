@@ -15,10 +15,14 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.yuhan.TeamScheduleManagement.domain.Project;
+import com.yuhan.TeamScheduleManagement.domain.Team;
 import com.yuhan.TeamScheduleManagement.domain.TechStack;
 import com.yuhan.TeamScheduleManagement.persistance.ProjectRepository;
 import com.yuhan.TeamScheduleManagement.service.ProjectService;
+import com.yuhan.TeamScheduleManagement.service.TeamService;
 import com.yuhan.TeamScheduleManagement.service.TechStackService;
+
+import jakarta.servlet.http.HttpSession;
 
 @Controller
 @RequestMapping("/project-board")
@@ -33,10 +37,21 @@ public class ProjectBoardController {
 	@Autowired
 	private ProjectService projectService;
 	
+	@Autowired
+	private TeamService teamService;
+	
 	@GetMapping("/register")
-	public String projectBoardRegisterPage(Model model) {
+	public String projectBoardRegisterPage(HttpSession session, Model model) {
+		String userId = (String) session.getAttribute("userId");
+		System.out.println("session userId : " + userId);
+		
+		// TODO team 테이블의 해당 user의 team 정보를 가져오기 (team_state가 1인 경우만)
+		Team teamInfo = teamService.getTeam(userId);
 		List<TechStack> techStacks = techStackService.getAllTechStacks();
+        
+		model.addAttribute("userId", userId);
         model.addAttribute("techStacks", techStacks);
+        model.addAttribute("teamInfo", teamInfo);
 		return "project_board/projectBoardRegister";
 	}
 

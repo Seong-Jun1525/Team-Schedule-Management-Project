@@ -10,6 +10,8 @@ import com.yuhan.TeamScheduleManagement.domain.User.UserState;
 import com.yuhan.TeamScheduleManagement.persistance.UserRepository;
 import com.yuhan.TeamScheduleManagement.util.HashUtil;
 
+import jakarta.transaction.Transactional;
+
 @Service
 public class UserServiceImpl implements UserService{
 	@Autowired
@@ -50,7 +52,17 @@ public class UserServiceImpl implements UserService{
 		// TODO 로그아웃 시 회원 상태 변경
         user.setUserState(UserState.OFFLINE);
         userRepo.save(user);
-		
 	}
 
+	@Override
+	@Transactional
+	public void updateTeamId(String userId, int teamId) {
+		// TODO 사용자의 teamId 값 업데이트
+	    User user = userRepo.findById(userId)
+	        .orElseThrow(() -> new IllegalArgumentException("User not found with id: " + userId));
+
+	    user.setTeamId(teamId);
+
+	    userRepo.save(user);
+	}
 }

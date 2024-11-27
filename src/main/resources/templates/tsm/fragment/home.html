@@ -25,7 +25,14 @@
 				</div>
 			</div>
 		</div>
-		<th:block th:each="projectItem, rowStat : ${projectList}">
+		<th:block th:if="${projectList == null || projectList.empty}">
+			<div class="project-container">
+				<div class="project-content">
+					<p>모집 중인 프로젝트가 없습니다.</p>
+				</div>
+			</div>
+		</th:block>
+		<th:block th:if="${projectList != null || !projectList.empty}" th:each="projectItem, rowStat : ${projectList}">
 			<!--<p th:text="${projectItem}"></p>-->
 			<div class="project-container">
 				<div class="project-content">
@@ -76,8 +83,14 @@
 		            </a>
 		        </span>
 			</div>
-			<div>
+			<div th:if="${projectInfo == null && teamInfo != null}">
 				<a class="project-register-btn" href="#" th:data-url="@{project-board/register}" onclick="loadContent(event)">프로젝트 등록</a>
+			</div>
+			<div th:if="${projectInfo != null && teamInfo != null}">
+				<p class="project-register-btn">Double SJ</p>
+			</div>
+			<div th:if="${projectInfo == null && teamInfo == null}">
+				<p class="project-register-btn">Double SJ</p>
 			</div>
 	    </div>
 	</div>

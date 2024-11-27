@@ -9,7 +9,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.yuhan.TeamScheduleManagement.domain.Project;
+import com.yuhan.TeamScheduleManagement.domain.Team;
 import com.yuhan.TeamScheduleManagement.service.ProjectService;
+import com.yuhan.TeamScheduleManagement.service.TeamService;
 
 import jakarta.servlet.http.HttpSession;
 
@@ -19,6 +21,9 @@ public class MainController {
 	
 	@Autowired
 	private ProjectService projectService;
+
+	@Autowired
+	private TeamService teamService;
 	
 	@GetMapping("/")
 	public String home(
@@ -28,19 +33,26 @@ public class MainController {
 	        Model model) {
 
 		// 세션 값 가져오기
+		String userId = (String) session.getAttribute("userId");
 		String userName = (String) session.getAttribute("userName");
-		if(userName != null) {
+		if(userId != null && userName != null) {
 			model.addAttribute("userName", userName);
 		}
+		
+		Project projectInfo = projectService.getAviableProject(userId);
+		Team teamInfo = teamService.getTeam(userId);
+		System.out.println("avaiableProject : " + projectInfo);
 		
 	    // 특정 상태의 프로젝트 페이징 처리
 	    Page<Project> projectPage = projectService.getProjectState(Project.ProjectState.BEFORE, page, size);
 
-	    // 모델에 페이징된 프로젝트 데이터와 페이지 정보를 추가
 	    model.addAttribute("projectList", projectPage.getContent());
 	    model.addAttribute("currentPage", projectPage.getNumber());
 	    model.addAttribute("totalPages", projectPage.getTotalPages());
 	    model.addAttribute("totalItems", projectPage.getTotalElements());
+	    model.addAttribute("projectInfo", projectInfo);
+	    model.addAttribute("teamInfo", teamInfo);
+	    
 	    return "index";
 	}
 	

@@ -16,7 +16,7 @@
 					<input type="text" name="teamName" placeholder="팀명을 입력해주세요" />
 				</div>
 				<div class="team-register-item">
-					<input type="text" name="memberId" value="userID" readonly />
+					<input type="text" name="memberId" th:value="${userId}" readonly required />
 				</div>
 				<div class="team-register-item">
 					<input type="number" name="numberOfPeople" placeholder="인원수를 입력해주세요" />

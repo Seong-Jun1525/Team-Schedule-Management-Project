@@ -41,13 +41,14 @@ public class User {
 	@Column(nullable = false ,updatable = false)
 	private LocalDateTime dateSignedUp;
 	
-	@Column(nullable = true)
-	private String teamId;
+	@Column(nullable = false)
+	private int teamId;
 	
 	@PrePersist
 	protected void onCreate() {
 		this.dateSignedUp = LocalDateTime.now();
 		this.userState  = UserState.OFFLINE;
+		this.teamId = 0;
 	}
 	
 	public enum UserGender{
