@@ -27,7 +27,7 @@
 			</a>
 			
 			<!-- team -->
-			<a href="javascript:void(0)" th:data-url="@{/team/register}" title="팀 생성" onclick="loadContent(event)">
+			<a th:if="${userName != null && teamInfo == null}" href="javascript:void(0)" th:data-url="@{/team/register}" title="팀 생성" onclick="loadContent(event)">
 				<span>Register Team</span>
 			</a>
 			

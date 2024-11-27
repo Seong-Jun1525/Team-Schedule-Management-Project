@@ -49,10 +49,17 @@ public class ProjectServiceImpl implements ProjectService {
 		Pageable pageable = PageRequest.of(page, size);
 	    return projectRepo.findByProjectNameContainingIgnoreCase(projectName, pageable);
 	}
-
+	
 	@Override
 	public Optional<Project> getProject(int projectId) {
-		// TODO Auto-generated method stub
 		return projectRepo.findById(projectId);
+	}
+
+	@Override
+	public Project getAviableProject(String userId) {
+		ProjectState checkStateValue = ProjectState.BEFORE;
+		Project avaiableProject = projectRepo.findByProjectLeaderAndProjectState(userId, checkStateValue);
+		System.out.println("avaiableProject : " + avaiableProject);
+		return avaiableProject;
 	}
 }

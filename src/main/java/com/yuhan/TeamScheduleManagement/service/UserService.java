@@ -1,6 +1,5 @@
 package com.yuhan.TeamScheduleManagement.service;
 
-import java.util.ArrayList;
 import java.util.Optional;
 
 import com.yuhan.TeamScheduleManagement.domain.User;
@@ -11,4 +10,5 @@ public interface UserService {
 	public void updateUserStateLogin(User user);
 	public void updateUserStateLogout(User user);
 	public Optional<User> getUser(User user);
+	public void updateTeamId(String userId, int teamId);
 }

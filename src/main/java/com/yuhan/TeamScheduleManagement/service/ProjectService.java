@@ -7,6 +7,7 @@ import org.springframework.data.domain.Page;
 
 import com.yuhan.TeamScheduleManagement.domain.Project;
 import com.yuhan.TeamScheduleManagement.domain.Project.ProjectState;
+import com.yuhan.TeamScheduleManagement.domain.Team;
 
 public interface ProjectService {
 	// 프로젝트 등록
@@ -23,4 +24,6 @@ public interface ProjectService {
 
 	// 해당 프로젝트 가져오기
 	public Optional<Project> getProject(int projectId);
+
+	public Project getAviableProject(String userId);
 }

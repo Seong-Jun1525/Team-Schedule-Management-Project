@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.yuhan.TeamScheduleManagement.domain.Team;
+import com.yuhan.TeamScheduleManagement.domain.Team.TeamState;
 import com.yuhan.TeamScheduleManagement.persistance.TeamRepository;
 
 @Service
@@ -32,5 +33,13 @@ public class TeamServiceImpl implements TeamService {
 		// TODO 추후 개발 예정
 		return null;
 	}
-	
+
+	@Override
+	public Team getTeam(String userId) {
+		// TODO userId로 등록된 팀 가져오기(상태가 1인 경우만)
+		TeamState checkStateValue = TeamState.ACTIVE;
+		Team teamInfo = teamRepo.findByMemberIdAndTeamState(userId, checkStateValue);
+		System.out.println("teamInfo : " + teamInfo);
+		return teamInfo;
+	}
 }
