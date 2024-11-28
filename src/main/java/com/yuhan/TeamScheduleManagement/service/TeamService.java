@@ -7,4 +7,5 @@ public interface TeamService {
 	public void updateTeam(Team team);
 	public Team getTeam(Team team);
 	public Team getTeam(String userId);
+	public Team getTeamByTeamNum(int teamNum);
 }

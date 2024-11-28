@@ -42,4 +42,9 @@ public class TeamServiceImpl implements TeamService {
 		System.out.println("teamInfo : " + teamInfo);
 		return teamInfo;
 	}
+
+	@Override
+	public Team getTeamByTeamNum(int teamNum) {
+		return teamRepo.getTeamByTeamNum(teamNum);
+	}
 }

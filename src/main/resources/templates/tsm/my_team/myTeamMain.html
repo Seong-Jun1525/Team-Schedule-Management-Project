@@ -6,7 +6,7 @@
 			<nav class="team-side-menu">
 		        <ul>
 		            <li>
-						<a 
+						<a
 							href="#" 
 							th:data-url="@{my-team/home}" 
 							onclick="loadSideContent(event)"
@@ -25,12 +25,12 @@
 					</li>
 		            <li>
 						<a 
-							href="#" 
-							th:data-url="@{my-team/schedule}" 
-							onclick="loadSideContent(event)"
+						    th:href="@{/my-team/schedule(teamNum=${myTeamInfo.teamNum})}" 
+						    target="_blank"
 						>
-							<span>Team Schedule</span>
+						    <span>Team Schedule</span>
 						</a>
+
 					</li>
 		            <li>
 						<a 

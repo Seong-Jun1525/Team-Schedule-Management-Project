@@ -4,10 +4,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -150,7 +149,10 @@ public class MyTeamController {
 	}
 	
 	@GetMapping("/schedule")
-	public String myTeamSchedule() {
+	public String myTeamSchedule(@RequestParam int teamNum, Model model) {
+		// System.out.println(teamNum);
+		Team myTeamInfo = teamService.getTeamByTeamNum(teamNum);
+		model.addAttribute("myTeamInfo", myTeamInfo);
 		return "my_team/myTeamSchedule";
 	}
 	
