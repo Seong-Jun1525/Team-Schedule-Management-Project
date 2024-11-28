@@ -1,0 +1,23 @@
+<html xmlns:th="http://www.thymeleaf.org">
+	<div class="team-board-wrapper">
+		<div class="team-board-container">
+			<div class="team-board-insert-header">
+				<p>글 등록</p>
+			</div>
+			<form class="team-board-insert-form" action="/my-team/board/insert" method="post">
+				<div class="team-board-insert-form-item">
+					<input type="text" name="teamBoardTitle" placeholder="글 제목을 작성해주세요" required />
+				</div>
+				<div class="team-board-insert-form-item">
+					<input class="team-board-insert-form-item-writer" type="text" name="teamBoardWriter" th:value="${userName}" readonly required />
+				</div>
+				<div class="team-board-insert-form-item">
+					<textarea rows="10" name="teamBoardContent" placeholder="글 내용을 작성해주세요" required></textarea>
+				</div>
+				<div class="team-board-insert-form-btn">
+					<button type="submit" class="team-board-insert-btn">글 등록</button>
+				</div>
+			</form>
+		</div>
+	</div>
+</html>

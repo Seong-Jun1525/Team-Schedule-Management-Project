@@ -10,10 +10,12 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.PrePersist;
+import jakarta.persistence.Table;
 import lombok.Data;
 
 @Data
 @Entity
+@Table(name = "team")
 public class Team {
 	@Id // Primary Key 설정
     @GeneratedValue(strategy = GenerationType.IDENTITY) // AUTO_INCREMENT 매핑

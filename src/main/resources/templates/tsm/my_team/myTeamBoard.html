@@ -1,3 +1,98 @@
-<div>
-	myTeamBoard
-</div>
+<html xmlns:th="http://www.thymeleaf.org">
+	<div class="team-board-wrapper">
+		<div class="team-board-container">
+			<search class="team-board-header">
+				<form action="/my-team/search" method="get" class="team-board-search-area">
+					<label for="search-team-board-input">
+						<i class="fa-solid fa-magnifying-glass"></i>
+					</label>
+					<input type="search" id="search-team-board-input" class="search-team-board" name="teamBoardTitle" placeholder="글 제목을 입력하세요" />
+					<button type="submit" class="search-team-board-btn">검색</button>
+				</form>
+			</search>
+			<div class="team-board-content">
+				<div class="team-board-content-header">
+					<div class="team-board-content-title">
+						<div class="team-board-content-item">
+							<p>NUM</p>
+						</div>
+						<div class="team-board-content-item">
+							<p>TITLE</p>
+						</div>
+						<div class="team-board-content-item">
+							<p>WRITER</p>
+						</div>
+						<div class="team-board-content-item">
+							<p>DATE</p>
+						</div>
+					</div>
+				</div>
+				<th:block th:if="${teamBoardList == null || teamBoardList.empty}">
+					<div class="team-board-content-list-wrapper">
+						<div class="team-board-content-list-container">
+							<div class="team-board-list">
+								<p>공지사항이 없습니다.</p>
+							</div>
+						</div>
+					</div>
+				</th:block>
+				<th:block th:if="${teamBoardList != null || !teamBoardList.empty}" th:each="teamBoardItem, rowStat : ${teamBoardList}">
+					<!--<p th:text="${teamBoardList}"></p>-->
+					<div class="team-board-content-list-wrapper">
+						<div class="team-board-content-list-container">
+							<div class="team-board-list">
+								<div class="team-board-content-list-item">
+									<p th:text="${rowStat.index + 1}">1</p>
+								</div>
+								<div class="team-board-content-list-item">
+									<p>
+										<a 
+										    href="#"
+										    th:data-url="@{/my-team/board/detail(teamBoardId=${teamBoardItem.teamBoardId})}" 
+										    th:text="${teamBoardItem.teamBoardTitle}" 
+										    onclick="loadSideContent(event)">
+										</a>
+									</p>
+								</div>
+								<div class="team-board-content-list-item">
+									<p th:text="${teamBoardItem.teamBoardWriter}"></p>
+								</div>
+								<div class="team-board-content-list-item">
+									<p th:text="${#temporals.format(teamBoardItem.createdAt, 'yyyy-MM-dd')}"></p>
+								</div>
+							</div>
+						</div>
+					</div>
+				</th:block>
+			</div>
+			<div class="page-num-wrapper">
+			    <div class="page-num-container">
+					<div class="page-num">
+				        <span th:if="${currentPage > 0}">
+				            <a href="#" th:href="@{/(page=${currentPage - 1})}">
+				                <i class="fa-solid fa-chevron-left"></i>
+				            </a>
+				        </span>
+				        <span th:each="i : ${#numbers.sequence(0, totalPages - 1)}">
+				            <a href="#" th:href="@{/(page=${i})}" 
+				               th:classappend="${i == currentPage} ? 'active' : ''">
+				                <span th:text="${i + 1}"></span>
+				            </a>
+				        </span>
+				        <span th:if="${currentPage < totalPages - 1}">
+				            <a href="#" th:href="@{/(page=${currentPage + 1})}">
+				                <i class="fa-solid fa-chevron-right"></i>
+				            </a>
+				        </span>
+					</div>
+					<div th:if="${myTeamInfo.teamPosition}">
+						<a class="team-board-insert-btn" href="#" th:data-url="@{my-team/board/insert}" onclick="loadSideContent(event)">글 등록</a>
+					</div>
+					<div th:if="${myTeamInfo == null}">
+						<p class="team-board-insert-btn">Double SJ</p>
+					</div>
+			    </div>
+			</div>
+		</div>
+	</div>
+</html>

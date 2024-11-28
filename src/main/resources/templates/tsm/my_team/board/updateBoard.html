@@ -1,0 +1,29 @@
+<html xmlns:th="http://www.thymeleaf.org">
+	<div class="team-board-wrapper">
+		<div class="team-board-container">
+			<div class="team-board-insert-header">
+				<p>글 수정</p>
+			</div>
+			<form class="team-board-insert-form" action="/my-team/board/update" method="post">
+				<div class="team-board-insert-form-item">
+					<input type="number" name="teamBoardId" th:value="${teamBoardInfo.teamBoardId}" readonly required />
+				</div>
+				<div class="team-board-insert-form-item">
+					<input type="text" name="createdAt" th:value="${teamBoardInfo.createdAt}" readonly required />
+				</div>
+				<div class="team-board-insert-form-item">
+					<input type="text" name="teamBoardTitle" th:value="${teamBoardInfo.teamBoardTitle}" required />
+				</div>
+				<div class="team-board-insert-form-item">
+					<input class="team-board-insert-form-item-writer" type="text" name="teamBoardWriter" th:value="${userName}" readonly required />
+				</div>
+				<div class="team-board-insert-form-item">
+					<textarea rows="10" name="teamBoardContent" th:text="${teamBoardInfo.teamBoardContent}" required></textarea>
+				</div>
+				<div class="team-board-insert-form-btn">
+					<button type="submit" class="team-board-insert-btn">글 수정</button>
+				</div>
+			</form>
+		</div>
+	</div>
+</html>

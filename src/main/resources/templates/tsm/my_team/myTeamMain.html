@@ -1,7 +1,8 @@
 <html xmlns:th="http://www.thymeleaf.org">
 	<div class="team-container">
 		<aside class="team-side">
-			<p class="team-side-menu-title">My Team</p>
+			<p class="team-side-menu-title" th:text="${myTeamInfo.teamName}">My Team</p>
+			<p class="team-side-menu-hello" th:text="${myTeamInfo.teamPosition} + ' | ' + ${userName} + 님"></p>
 			<nav class="team-side-menu">
 		        <ul>
 		            <li>

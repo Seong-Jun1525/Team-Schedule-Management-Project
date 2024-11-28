@@ -1,0 +1,23 @@
+<html xmlns:th="http://www.thymeleaf.org">
+	<div class="team-board-wrapper">
+		<div class="team-board-container">
+			<div class="team-board-detail-header">
+				<p th:text="${teamBoardInfo.teamBoardTitle}"></p>
+			</div>
+			<div class="team-board-detail-item-info">
+				<p th:text="'작성자 : ' + ${teamBoardInfo.teamBoardWriter}"></p>
+				<p th:text="'작성날짜 : ' + ${#temporals.format(teamBoardInfo.createdAt, 'yyyy-MM-dd hh:mm:ss')}"></p>
+			</div>
+			<div class="team-board-detail-item-content">
+				<p th:text="${teamBoardInfo.teamBoardContent}"></p>
+			</div>
+		</div>
+		<div class="team-board-detail-btn-wrapper">
+			<a href="javascript:void(0);" th:data-url="@{/my-team/board/update(teamBoardId = ${teamBoardInfo.teamBoardId})}" onclick="loadSideContent(event)" class="team-board-detail-edit-btn">수정</a>
+			<form action="/my-team/board/delete" method="post">
+				<input type="number" hidden name="teamBoardId" th:value="${teamBoardInfo.teamBoardId}" />
+				<button class="team-board-detail-remove-btn" type="submit">삭제</button>
+			</form>
+		</div>
+	</div>
+</html>

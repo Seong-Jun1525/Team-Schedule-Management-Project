@@ -94,7 +94,7 @@
 
 .project-register-btn {
 	border: 0.1rem solid var(--font-color);
-	border-radius: 1rem;
+	border-radius: 0.5rem;
 	padding : 0.3rem 0.7rem;
 	transition: 0.3s ease-in-out;
 }

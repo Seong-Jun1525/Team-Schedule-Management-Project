@@ -61,6 +61,7 @@
 .team-side-content {
 	width: 75%;
 	height: 100%;
+	overflow-y: auto;
 	padding: 1.5rem;
 	background-color: var(--light-content-color);
 	border-radius: 0 1rem 1rem 0;

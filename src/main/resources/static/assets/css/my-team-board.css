@@ -1,0 +1,274 @@
+.team-board-wrapper {
+	width: 100%;
+}
+
+.team-board-container {
+	width: 100%;
+}
+
+.team-board-header {
+	width: 100%;
+	display: flex;
+	align-items: center;
+	justify-content: flex-end;
+}
+
+.team-board-search-area {
+	display: flex;
+	align-items: center;
+	justify-content: flex-end;
+}
+
+.team-board-search-area > label {
+	margin-right: 1rem;
+}
+
+.team-board-search-area > label > i {
+	color: var(--dark-content-color) !important;
+}
+
+.search-team-board-input {
+	cursor: pointer;
+	margin-right: 1.5rem;
+}
+
+.search-team-board {
+	width: 80% !important;
+	font-size: 1.3rem;
+	background: none;
+	transition: 0.1s ease-in-out;
+	color: var(--dark-content-color);
+	border-bottom: 0.1rem solid var(--dark-content-color);
+	margin-right: 1.5rem;
+}
+
+.search-team-board:focus {
+	color: var(--font-color);
+	background-color: var(--dark-content-color);
+	outline: 0.15rem solid var(--font-color);
+}
+
+.search-team-board-btn {
+	width: 20%;
+	padding: 0.3rem 0.7rem;
+	border-radius: 0.5rem;
+	font-size: 1rem;
+	font-weight: 900;
+	color: var(--font-color);
+	border: 0.1rem solid var(--font-color);	
+	transition: 0.3s ease-in-out;
+}
+
+.search-team-board-btn:hover {
+	cursor: pointer;
+	background-color: var(--dark-content-color);
+}
+
+.team-board-content {
+	width: 100%;
+	margin-top: 1rem;
+}
+
+.team-board-content-title {
+	width: 100%;
+	display: flex;
+	align-items: center;
+	border-bottom: 0.5rem solid var(--dark-content-color);
+}
+
+.team-board-content-list-wrapper {
+	width: 100%;
+}
+
+.team-board-content-list-container {
+	width: 100%;
+}
+
+.team-board-list {
+	width: 100%;
+	text-align: center;
+	padding: 0.5rem;
+	display: flex;
+	align-items: center;
+}
+
+.team-board-content-item,
+.team-board-content-list-item {
+	text-align: center;
+	padding: 0.5rem;
+}
+
+.team-board-content-item:nth-child(1),
+.team-board-content-list-item:nth-child(1) {
+	width: 5%;
+}
+
+.team-board-content-item:nth-child(2),
+.team-board-content-list-item:nth-child(2) {
+	width: 60%;
+}
+
+.team-board-content-item:nth-child(3),
+.team-board-content-list-item:nth-child(3) {
+	width: 20%;
+}
+
+.team-board-content-item:nth-child(4),
+.team-board-content-list-item:nth-child(4) {
+	width: 15%;
+}
+
+.team-board-content-list-item {
+	border-bottom: 0.1rem solid var(--dark-content-color);
+}
+
+.team-board-insert-btn {
+	padding: 0.3rem 0.7rem;
+	border-radius: 0.5rem;
+	font-size: 1rem;
+	font-weight: 900;
+	color: var(--font-color);
+	border: 0.1rem solid var(--font-color);	
+	transition: 0.3s ease-in-out;
+}
+
+.team-board-insert-btn:hover {
+	background-color: var(--dark-content-color);
+	cursor: pointer;
+}
+
+/* 글 등록 페이지 header */
+.team-board-insert-header {
+	font-size: 3rem;
+}
+
+.team-board-insert-header > p {
+	color: var(--dark-content-color);
+}
+
+.team-board-insert-form {
+	width: 100%;
+	padding: 1.3rem;
+	border: 0.1rem solid var(--dark-content-color);
+	border-radius: 1rem;
+	margin-top: 1rem;
+}
+
+.team-board-insert-form-item {
+	margin-top: 1rem;
+}
+
+.team-board-insert-form-item-writer {
+	background: var(--dark-content-color);
+	outline: 0.15rem solid var(--font-color);
+}
+
+.team-board-insert-form-item > textarea {
+	width: 100%;
+	background: none;
+	transition: 0.1s ease-in-out;
+	color: var(--font-color);
+	padding: 1rem;
+	border-bottom: 0.1rem solid var(--font-color);
+}
+
+.team-board-insert-form-item > textarea:focus {
+	background: var(--dark-content-color);
+	outline: 0.15rem solid var(--font-color);
+}
+
+.team-board-insert-form-btn {
+	width: 100%;
+	display: flex;
+	align-items: center;
+	justify-content: flex-end;
+	margin-top: 1rem;
+}
+
+.team-board-insert-btn {
+	padding: 0.3rem 0.7rem;
+	border-radius: 0.5rem;
+	font-size: 1rem;
+	font-weight: 900;
+	color: var(--font-color);
+	border: 0.1rem solid var(--font-color);	
+	transition: 0.3s ease-in-out;
+}
+
+.team-board-insert-btn:hover {
+	background-color: var(--dark-content-color);
+	cursor: pointer;
+}
+
+/* 글 상세 페이지 */
+.team-board-container {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+}
+
+.team-board-detail-header {
+	width: 100%;
+	font-size: 3rem;
+}
+
+.team-board-detail-header > p::before {
+	content: "";
+	margin: 0.7rem;
+	padding: 0.5rem;
+	background-color: var(--dark-content-color);	
+}
+
+.team-board-detail-item-info {
+	width: 100%;
+	display: flex;
+	align-items: center;
+	justify-content: flex-end;
+	padding: 0.5rem;
+}
+
+.team-board-detail-item-info > p:nth-child(1) {
+	margin-right: 1rem;
+}
+
+.team-board-detail-item-content {
+	width: 100%;
+	min-height: 50vh;
+	font-size: 2rem;
+	padding: 1rem;
+	margin-bottom: 1rem;
+}
+
+.team-board-detail-btn-wrapper {
+	width: 100%;
+	display: flex;
+	align-items: center;
+	justify-content: flex-end;
+}
+
+.team-board-detail-edit-btn {
+	border: 0.1rem solid var(--font-color);
+	padding: 0.3rem;
+	border-radius: 0.5rem;
+	transition: 0.3s ease-in-out;
+	margin-right: 1rem;
+	font-size: 1.3rem;
+}
+
+.team-board-detail-edit-btn:hover {
+	cursor: pointer;
+	background-color: var(--dark-content-color);
+}
+
+.team-board-detail-remove-btn {
+	color: var(--dark-content-color);
+	border: 0.1rem solid var(--dark-content-color);
+	padding: 0.3rem;
+	border-radius: 0.5rem;
+	transition: 0.3s ease-in-out;
+	font-size: 1.3rem;
+}
+
+.team-board-detail-remove-btn:hover {
+	cursor: pointer;
+}
