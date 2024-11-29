@@ -6,12 +6,9 @@
     <title>Team Schedule</title>
     
     <!-- 스타일 -->
-	<link rel="stylesheet" href="../../assets/css/index.css" />
-	<link rel="stylesheet" href="../../assets/css/main.css" />
+    <link rel="stylesheet" href="../../assets/css/index.css" />
+    <link rel="stylesheet" href="../../assets/css/main.css" />
     <link rel="stylesheet" href="../../assets/css/my-team-schedule.css" />
-
-    <!-- FullCalendar 스타일 -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.15/index.global.min.css">
 
     <!-- FontAwesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" />
@@ -20,179 +17,123 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
 </head>
 <body>
-	<div class="container">
-		<div class="team-schedule-wrapper">
-	        <div class="team-schedule-container">
-	            <div class="team-schedule-header">
-	                <p class="team-schedule-title">
-	                    <i class="fa-solid fa-calendar-days"></i><span th:text="${myTeamInfo.teamName} + ' 팀의 일정'"></span>
-	                </p>
-	            </div>
-	            <div class="team-schedule-content">
-	                <!-- 캘린더를 렌더링할 div -->
-	                <div id="calendar"></div>
-	            </div>
-	        </div>
-	    </div>
-	</div>
-	
-	<!-- footer -->
-	<footer>
+    <div class="container">
+        <div class="team-schedule-wrapper">
+            <div class="team-schedule-container">
+                <div class="team-schedule-header">
+                    <p class="team-schedule-title">
+                        <i class="fa-solid fa-calendar-days"></i><span th:text="${teamInfo.teamName} + ' 팀의 일정'"></span>
+                    </p>
+                </div>
+                <div class="team-schedule-content">
+                    <!-- 캘린더를 렌더링할 div -->
+                    <div id="calendar"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- footer -->
+    <footer>
         <div th:replace="~{fragment/footer :: footerFragment}"></div>
-	</footer>
+    </footer>
 
     <!-- FullCalendar 스크립트 -->
     <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.15/index.global.min.js"></script>
-
-    <script>
-        // DOMContentLoaded 이벤트를 사용해 FullCalendar 초기화
+    <script th:inline="javascript">
         document.addEventListener('DOMContentLoaded', function () {
-            var calendarEl = document.getElementById('calendar');
+            const calendarEl = document.getElementById('calendar');
+            const teamNum = [[${teamNum}]]; // Thymeleaf에서 팀 번호 전달
             if (calendarEl) {
-                // FullCalendar 초기화
-                var calendar = new FullCalendar.Calendar(calendarEl, {
-					initialView: 'dayGridMonth', // 기본 보기
-					slotMinTime: '00:00', // Day 캘린더에서 시작 시간
-    				slotMaxTime: '23:59', // Day 캘린더에서 종료 시간
-    				customButtons: { // 사용자가 만드는 버튼
-			            testButton: {
-			                text: "테스트버튼"
-			            }
-			        },
-					selectable: true, // 날짜 선택
-					unselectAuto: true, // selectable이 true일 경우만 설정 가능. 기본값 true
-					navLinks: true,                 // 날짜를 선택하면 Day 캘린더나 Week 캘린더로 링크
-			        editable: true,                 // default : false 이벤트 드래그 등의 편집여부를 설정함
-			        selectable: true,               // 일자 드래그 설정
-			        nowIndicator: true,             // 현재 시간 마크
-			        dayMaxEvents: true,             // 이벤트가 많아지면 + 로 이벤트 표시
-			        locale: 'ko',                   // 한국어 설정
-			        eventAdd: function (obj) {      // 이벤트 추가 시 발생
-			            console.log("eventAdd : " + obj);
-			        },
-			        eventChange: function (obj) {    // 이벤트 수정 시 발생
-			            console.log("eventChange : " + obj);
-			        },
-			        eventRemove: function (obj) {     // 이벤트 삭제 시 발생
-			            console.log("eventRemove : " + obj);
-			        },
-			        select: function (arg) {
-					    let title = prompt('일정 입력');
-					    if (title) {
-					        let newData = {
-					            title: title,
-					            start: arg.start,
-					            end: arg.end,
-					            allDay: arg.allDay
+                const calendar = new FullCalendar.Calendar(calendarEl, {
+                    initialView: 'dayGridMonth',
+                    selectable: true,
+                    navLinks: true,
+                    editable: true,
+                    nowIndicator: true,
+                    dayMaxEvents: true,
+                    locale: 'ko',
+                    customButtons: {
+                        testButton: {
+                            text: '테스트 버튼'
+                        }
+                    },
+                    eventAdd: function (obj) {
+                        console.log("Event added:", obj);
+                    },
+                    eventChange: function (obj) {
+                        console.log("Event changed:", obj);
+                    },
+                    eventRemove: function (obj) {
+                        console.log("Event removed:", obj);
+                    },
+                    select: function (arg) {
+					    const title = prompt('일정 이름을 입력해주세요');
+					    const state = prompt('일정 유형 (예: REGULAR_MEETING, ADDITIONAL_MEETING, VACATION, ETC)');
+					    if (title && state) {
+					        const newEvent = {
+					            teamNum: teamNum,
+					            teamScheduleContent: title,
+					            teamScheduleStartDate: arg.start.toISOString(),
+					            teamScheduleEndDate: arg.end ? arg.end.toISOString() : null,
+					            allDay: arg.allDay,
+					            scheduleState: state
 					        };
-					        fetch('/calendarSave', {
+					
+					        fetch('/my-team/schedule/insertCalendar', {
 					            method: 'POST',
-					            headers: {
-					                'Content-Type': 'application/json'
-					            },
-					            body: JSON.stringify(newData)
+					            headers: { 'Content-Type': 'application/json' },
+					            body: JSON.stringify(newEvent)
 					        })
-					        .then(response => response.json())
+					        .then(response => {
+					            if (!response.ok) throw new Error('Error saving event');
+					            return response.json();
+					        })
 					        .then(data => {
-					            if (data) {
-					                calendar.addEvent({
-					                    id: data.calendarNo,
-					                    title: data.title,
-					                    start: data.start1,
-					                    end: data.end,
-					                    allDay: data.allDay,
-					                    editable: true
-					                });
-					            }
+					            calendar.addEvent({
+					                id: data.teamScheduleId,
+					                title: data.teamScheduleContent,
+					                start: data.teamScheduleStartDate,
+					                end: data.teamScheduleEndDate,
+					                allDay: data.allDay
+					            });
 					        })
-					        .catch(error => console.error('Error saving event:', error));
+					        .catch(error => {
+					            console.error('Error:', error);
+					            alert('일정을 저장하는 중 오류가 발생했습니다.');
+					        });
 					    }
 					    calendar.unselect();
 					},
-					
-					eventClick: function (arg) {
-					    if (confirm("선택한 일정을 삭제하시겠습니까?")) {
-					        fetch('/calendarDelete', {
-					            method: 'DELETE',
-					            headers: {
-					                'Content-Type': 'application/json'
-					            },
-					            body: JSON.stringify({ no: arg.event.id })
-					        })
-					        .then(response => response.text())
-					        .then(data => {
-					            if (data === 'success') {
-					                alert("삭제하였습니다.");
-					                arg.event.remove();
-					            } else {
-					                alert("오류가 발생하였습니다");
+                    events: function (fetchInfo, successCallback, failureCallback) {
+					    fetch(`/my-team/schedule/events?teamNum=${teamNum}`) // 새 엔드포인트 호출
+					        .then(response => {
+					            if (!response.ok) {
+					                throw new Error('Failed to fetch events');
 					            }
+					            return response.json();
 					        })
-					        .catch(error => console.error('Error deleting event:', error));
-					    }
-					},
-					
-					eventDrop: function (arg) {
-					    let event = {
-					        id: arg.event.id,
-					        title: arg.event.title,
-					        start1: arg.event._instance.range.start,
-					        end: arg.event._instance.range.end ? arg.event._instance.range.end : null,
-					        allDay: arg.event.allDay
-					    };
-					    fetch(`/eventUpdate/${arg.event.id}`, {
-					        method: 'PUT',
-					        headers: {
-					            'Content-Type': 'application/json'
-					        },
-					        body: JSON.stringify(event)
-					    })
-					    .catch(error => console.error('Error updating event:', error));
-					},
-					
-					eventResize: function (arg) {
-					    let event = {
-					        id: arg.event.id,
-					        title: arg.event.title,
-					        start1: arg.event._instance.range.start,
-					        end: arg.event._instance.range.end ? arg.event._instance.range.end : null,
-					        allDay: arg.event.allDay
-					    };
-					    fetch(`/eventUpdate/${arg.event.id}`, {
-					        method: 'PUT',
-					        headers: {
-					            'Content-Type': 'application/json'
-					        },
-					        body: JSON.stringify(event)
-					    })
-					    .catch(error => console.error('Error updating event:', error));
-					},
-					
-					events: function (fetchInfo, successCallback, failureCallback) {
-					    fetch('/calendarList', {
-					        method: 'GET'
-					    })
-					    .then(response => response.json())
-					    .then(data => {
-					        let events = data.map(event => ({
-					            id: event.calendarNo,
-					            title: event.title,
-					            start: event.start1,
-					            end: event.end,
-					            allDay: event.allDay,
-					            editable: true
-					        }));
-					        successCallback(events);
-					    })
-					    .catch(error => {
-					        console.error('Error fetching events:', error);
-					        failureCallback(error);
-					    });
+					        .then(data => {
+					            // 서버에서 반환된 데이터를 FullCalendar 이벤트 형식으로 변환
+					            const events = data.map(event => ({
+					                id: event.id,
+					                title: event.title,
+					                start: event.start,
+					                end: event.end,
+					                allDay: event.allDay
+					            }));
+					            console.log('Fetched events:', events);
+					            successCallback(events);
+					        })
+					        .catch(error => {
+					            console.error('Error fetching events:', error);
+					            failureCallback(error);
+					        });
 					}
                 });
-                calendar.render(); // 캘린더 렌더링
+                calendar.render();
             } else {
-                console.error('Calendar element not found!');
+                console.error('캘린더 요소를 찾을 수 없습니다.');
             }
         });
     </script>

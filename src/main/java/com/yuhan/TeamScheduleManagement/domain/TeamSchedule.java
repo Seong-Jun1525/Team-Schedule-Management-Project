@@ -20,6 +20,9 @@ public class TeamSchedule {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int teamScheduleId;
 	
+	@Column(nullable = false)
+	private int teamNum;
+	
 	@Column(nullable = false, length = 20)
 	private String teamScheduleMemberId;
 	
@@ -27,16 +30,22 @@ public class TeamSchedule {
 	private String teamScheduleContent;
 	
 	@Column(nullable = false, length = 30)
-	private String teamScheduleDate;
+	private LocalDateTime teamScheduleStartDate;
+	
+	@Column(nullable = false, length = 30)
+	private LocalDateTime teamScheduleEndDate;
+	
+	@Column(nullable = false)
+	private Boolean allDay;
 
     @Enumerated(EnumType.STRING)
 	@Column(nullable = false, length = 20)
-    private ScheduleState teamScheduleState = ScheduleState.ETC;
+    private ScheduleState teamScheduleState;
 
     @Column(updatable = true)
     private LocalDateTime createdAt = LocalDateTime.now();
     
     public enum ScheduleState {
-    	REGULAR_MEETING, ADDITIONAL_MEETING, VACATION, ETC, DELETE
+    	REGULAR_MEETING, ADDITIONAL_MEETING, VACATION, ETC
     }
 }

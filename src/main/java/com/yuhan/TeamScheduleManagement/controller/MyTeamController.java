@@ -1,18 +1,31 @@
 package com.yuhan.TeamScheduleManagement.controller;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.yuhan.TeamScheduleManagement.domain.Team;
 import com.yuhan.TeamScheduleManagement.domain.TeamBoard;
+import com.yuhan.TeamScheduleManagement.domain.TeamSchedule;
+import com.yuhan.TeamScheduleManagement.dto.TeamScheduleDTO;
 import com.yuhan.TeamScheduleManagement.service.TeamBoardService;
+import com.yuhan.TeamScheduleManagement.service.TeamScheduleService;
 import com.yuhan.TeamScheduleManagement.service.TeamService;
 
 import jakarta.servlet.http.HttpSession;
@@ -26,6 +39,9 @@ public class MyTeamController {
 	
 	@Autowired
 	private TeamBoardService teamBoardService;
+	
+	@Autowired
+	private TeamScheduleService teamScheduleService;
 	
 	@GetMapping("/")
 	public String myTeamMain(HttpSession session, Model model) {
@@ -147,13 +163,100 @@ public class MyTeamController {
 			return "error/error";
 		}
 	}
-	
+
 	@GetMapping("/schedule")
-	public String myTeamSchedule(@RequestParam int teamNum, Model model) {
-		// System.out.println(teamNum);
-		Team myTeamInfo = teamService.getTeamByTeamNum(teamNum);
-		model.addAttribute("myTeamInfo", myTeamInfo);
-		return "my_team/myTeamSchedule";
+	public String getSchedules(@RequestParam int teamNum, Model model) {
+	    System.out.println("Received teamNum: " + teamNum); // 요청 로그 추가
+
+	    // 일정을 가져옵니다
+	    List<TeamSchedule> schedules = teamScheduleService.getSchedulesByTeamNum(teamNum);
+	    
+	    // 팀 정보를 가져옵니다
+	    Team teamInfo = teamService.getTeamByTeamNum(teamNum);
+	    
+	    System.out.println(schedules);
+	    System.out.println(teamInfo);
+	    
+	    // 모델에 데이터를 추가합니다
+	    model.addAttribute("schedules", schedules);
+	    model.addAttribute("teamInfo", teamInfo);
+	    model.addAttribute("teamNum", teamNum);
+	    
+	    // "myTeamSchedule" 페이지를 렌더링합니다
+	    return "my_team/myTeamSchedule";
+	}
+	
+	@GetMapping("/schedule/events")
+	@ResponseBody
+	public List<Map<String, Object>> getScheduleEvents(@RequestParam int teamNum) {
+	    System.out.println("Received teamNum: " + teamNum);
+
+	    // 일정을 가져옵니다
+	    List<TeamSchedule> schedules = teamScheduleService.getSchedulesByTeamNum(teamNum);
+
+	    // 데이터를 FullCalendar 이벤트 형식으로 변환
+	    List<Map<String, Object>> events = new ArrayList<>();
+	    for (TeamSchedule schedule : schedules) {
+	        Map<String, Object> event = new HashMap<>();
+	        event.put("id", schedule.getTeamScheduleId());
+	        event.put("title", schedule.getTeamScheduleContent());
+	        event.put("start", schedule.getTeamScheduleStartDate());
+	        event.put("end", schedule.getTeamScheduleEndDate());
+	        event.put("allDay", schedule.getAllDay()); // isAllDay() 메서드 확인
+	        events.add(event);
+	    }
+
+	    System.out.println("Events for calendar: " + events);
+	    return events;
+	}
+
+	
+	// 일정 추가
+	@PostMapping("/schedule/insertCalendar")
+	public ResponseEntity<?> insertTeamSchedule(@RequestBody TeamScheduleDTO dto, HttpSession session) {
+	    try {
+	    	String memberId = (String) session.getAttribute("userId");
+	        TeamSchedule newSchedule = teamScheduleService.saveSchedule(dto, memberId);
+	        return ResponseEntity.ok(newSchedule);
+	    } catch (Exception e) {
+	        e.printStackTrace(); // 로그 추가
+	        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error adding schedule");
+	    }
+	}
+
+	// 일정 삭제
+	@DeleteMapping("/schedule/delete")
+	public ResponseEntity<?> deleteSchedule(@RequestBody Map<String, Object> map) {
+	    try {
+	        if (!map.containsKey("id")) {
+	            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Schedule ID is required");
+	        }
+	        int scheduleId = (int) map.get("id");
+	        teamScheduleService.deleteSchedule(scheduleId);
+	        return ResponseEntity.ok("Schedule deleted successfully");
+	    } catch (Exception e) {
+	        e.printStackTrace(); // 로그 추가 필요
+	        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error deleting schedule");
+	    }
+	}
+
+	// 일정 수정
+	@PutMapping("/schedule/update")
+	public ResponseEntity<?> updateSchedule(@RequestBody TeamSchedule teamSchedule) {
+	    try {
+	        if (teamSchedule == null || teamSchedule.getTeamScheduleId() == 0) {
+	            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Invalid schedule data");
+	        }
+	        boolean exists = teamScheduleService.getSchedulesByTeamNum(teamSchedule.getTeamScheduleId()).size() > 0;
+	        if (!exists) {
+	            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Schedule not found");
+	        }
+	        teamScheduleService.updateSchedule(teamSchedule);
+	        return ResponseEntity.ok("Schedule updated successfully");
+	    } catch (Exception e) {
+	        e.printStackTrace(); // 로그 추가 필요
+	        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error updating schedule");
+	    }
 	}
 	
 	@GetMapping("/chat")
