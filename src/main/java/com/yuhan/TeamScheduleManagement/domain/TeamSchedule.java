@@ -30,13 +30,13 @@ public class TeamSchedule {
 	private String teamScheduleContent;
 	
 	@Column(nullable = false, length = 30)
-	private LocalDateTime teamScheduleStartDate;
+	private String teamScheduleStartDate;
 	
 	@Column(nullable = false, length = 30)
-	private LocalDateTime teamScheduleEndDate;
+	private String teamScheduleEndDate;
 	
 	@Column(nullable = false)
-	private Boolean allDay;
+	private Boolean allDay = true;
 
     @Enumerated(EnumType.STRING)
 	@Column(nullable = false, length = 20)

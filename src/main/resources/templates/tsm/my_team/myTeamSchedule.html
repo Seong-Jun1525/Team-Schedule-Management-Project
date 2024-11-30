@@ -10,6 +10,8 @@
     <link rel="stylesheet" href="../../assets/css/main.css" />
     <link rel="stylesheet" href="../../assets/css/my-team-schedule.css" />
 
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/fullcalendar@5.7.0/main.min.css">
+    
     <!-- FontAwesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" />
 
@@ -37,11 +39,67 @@
     <footer>
         <div th:replace="~{fragment/footer :: footerFragment}"></div>
     </footer>
+    
+    <div id="modal" class="insert-modal-wrapper">
+		<div class="insert-modal-container">
+			<div class="insert-modal-header">
+				<div class="insert-modal-title">
+					<p>일정 등록</p>
+				</div>
+				<div class="close-btn">
+					<i class="fa-regular fa-circle-xmark"></i>
+				</div>
+			</div>
+			<form id="insertScheduleForm" action="/my-team/schedule/insertSchedule" method="post" class="team-schedule-insert-form">
+				<div class="team-schedule-insert-form-item">
+					<input type="hidden" name="teamNum" th:value="${teamNum}" />
+				</div>
+				<div class="team-schedule-insert-form-item">
+					<label for="teamScheduleStartDate"><p>일정 시작일</p></label>
+					<input type="date" id="teamScheduleStartDate" name="teamScheduleStartDate" />
+				</div>
+				<div class="team-schedule-insert-form-item">
+					<label for="teamScheduleEndDate"><p>일정 종료일</p></label>
+					<input type="date" id="teamScheduleEndDate" name="teamScheduleEndDate" />
+				</div>
+				<div class="team-schedule-insert-form-item">
+					<input type="text" name="teamScheduleContent" placeholder="내용을 입력해주세요" />
+				</div>
+				<div class="team-schedule-insert-form-item">
+					<select name="teamScheduleState">
+						<option value="REGULAR_MEETING">정규회의</option>
+						<option value="ADDITIONAL_MEETING">추가회의</option>
+						<option value="VACATION">휴가</option>
+						<option value="ETC">기타</option>
+					</select>
+				</div>
+				<div class="team-schedule-insert-form-btn">
+					<button type="submit" class="insert-btn">등록하기</button>
+				</div>
+			</form>
+		</div>
+	</div>
 
     <!-- FullCalendar 스크립트 -->
     <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.15/index.global.min.js"></script>
     <script th:inline="javascript">
         document.addEventListener('DOMContentLoaded', function () {
+			document.getElementById('insertScheduleForm').addEventListener('submit', function (event) {
+		        event.preventDefault();
+		
+		        const formData = new FormData(this);
+				console.log(formData);
+		        fetch('/my-team/schedule/insertSchedule', {
+		            method: 'POST',
+		            body: formData
+		        })
+		        .then(response => response.json())
+		        .then(data => {
+		            location.reload();
+		        })
+		        .catch(error => console.error('Error:', error));
+		    });
+			
             const calendarEl = document.getElementById('calendar');
             const teamNum = [[${teamNum}]]; // Thymeleaf에서 팀 번호 전달
             if (calendarEl) {
@@ -52,12 +110,27 @@
                     editable: true,
                     nowIndicator: true,
                     dayMaxEvents: true,
+                    timeZone: 'UTC',
                     locale: 'ko',
-                    customButtons: {
-                        testButton: {
-                            text: '테스트 버튼'
-                        }
-                    },
+                    headerToolbar: {
+		                start: 'dayGridMonth,timeGridWeek,dayGridDay', // headerToolbar에 버튼 추가
+		                center: 'title',
+		                end: 'addEventButton today prev,next'  // 스페이스-버튼띄움 ,-붙여서 생성
+		            }, 
+		            customButtons: {
+		                addEventButton: { // 추가한 버튼 설정
+		                    text : "일정 추가",  // 버튼 내용
+		                    click : function(){ // 버튼 클릭 시 이벤트 추가
+		                        const modal = document.querySelector('.insert-modal-wrapper');
+		                        const closeBtn = document.querySelector('.close-btn');
+		                        modal.style.display = 'flex';
+		                        
+		                        closeBtn.addEventListener("click", () => {
+									modal.style.display = 'none';
+								})
+		                    }
+		                }
+		            },
                     eventAdd: function (obj) {
                         console.log("Event added:", obj);
                     },
@@ -68,19 +141,36 @@
                         console.log("Event removed:", obj);
                     },
                     select: function (arg) {
-					    const title = prompt('일정 이름을 입력해주세요');
-					    const state = prompt('일정 유형 (예: REGULAR_MEETING, ADDITIONAL_MEETING, VACATION, ETC)');
-					    if (title && state) {
+					    const modal = document.querySelector('.insert-modal-wrapper');
+					    const closeBtn = document.querySelector('.close-btn');
+					    const startDateInput = document.getElementById('teamScheduleStartDate');
+					    
+					    startDateInput.value = arg.start.toISOString().substring(0, 10);
+					    
+					    // 모달 창 띄우기
+					    modal.style.display = 'flex';
+					
+					    // 모달 닫기 버튼 이벤트
+					    closeBtn.addEventListener("click", () => {
+					        modal.style.display = 'none';
+					        calendar.unselect(); // 선택된 날짜 해제
+					    });
+					
+					    // 폼 제출 이벤트
+					    const form = document.getElementById('insertScheduleForm');
+					    form.addEventListener('submit', function (event) {
+					        event.preventDefault(); // 기본 폼 제출 방지
+					
+					        const formData = new FormData(form);
 					        const newEvent = {
 					            teamNum: teamNum,
-					            teamScheduleContent: title,
-					            teamScheduleStartDate: arg.start.toISOString(),
-					            teamScheduleEndDate: arg.end ? arg.end.toISOString() : null,
-					            allDay: arg.allDay,
-					            scheduleState: state
+					            teamScheduleContent: formData.get('teamScheduleContent'),
+					            teamScheduleStartDate: formData.get('teamScheduleStartDate'),
+					            teamScheduleEndDate: formData.get('teamScheduleEndDate'),
+					            allDay: arg.allDay // FullCalendar에서 선택한 날짜의 allDay 여부
 					        };
 					
-					        fetch('/my-team/schedule/insertCalendar', {
+					        fetch('/my-team/schedule/insertSchedule', {
 					            method: 'POST',
 					            headers: { 'Content-Type': 'application/json' },
 					            body: JSON.stringify(newEvent)
@@ -97,14 +187,17 @@
 					                end: data.teamScheduleEndDate,
 					                allDay: data.allDay
 					            });
+					
+					            modal.style.display = 'none'; // 모달 닫기
+					            form.reset(); // 폼 초기화
 					        })
 					        .catch(error => {
 					            console.error('Error:', error);
 					            alert('일정을 저장하는 중 오류가 발생했습니다.');
 					        });
-					    }
-					    calendar.unselect();
-					},
+					    });
+				        calendar.unselect();
+				    },
                     events: function (fetchInfo, successCallback, failureCallback) {
 					    fetch(`/my-team/schedule/events?teamNum=${teamNum}`) // 새 엔드포인트 호출
 					        .then(response => {

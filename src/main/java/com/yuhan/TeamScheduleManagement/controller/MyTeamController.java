@@ -210,17 +210,45 @@ public class MyTeamController {
 	    return events;
 	}
 
-	
 	// 일정 추가
-	@PostMapping("/schedule/insertCalendar")
-	public ResponseEntity<?> insertTeamSchedule(@RequestBody TeamScheduleDTO dto, HttpSession session) {
+//	@PostMapping("/schedule/insertCalendar")
+//	public ResponseEntity<?> insertTeamSchedule(@RequestBody TeamScheduleDTO dto, HttpSession session) {
+//	    try {
+//	    	String memberId = (String) session.getAttribute("userId");
+//	        TeamSchedule newSchedule = teamScheduleService.saveSchedule(dto, memberId);
+//	        return ResponseEntity.ok(newSchedule);
+//	    } catch (Exception e) {
+//	        e.printStackTrace(); // 로그 추가
+//	        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error adding schedule");
+//	    }
+//	}
+
+	// 일정 추가
+//	@PostMapping("/schedule/insertSchedule")
+//	public String insertTeamSchedule(TeamSchedule teamSchedule, HttpSession session) {
+//		System.out.println("teamSchedule : " + teamSchedule);
+//		String memberId = (String) session.getAttribute("userId");
+//		
+//		teamScheduleService.insertTeamSchedule(teamSchedule, memberId);
+//		
+//		return "my_team/myTeamSchedule";
+//	}
+	
+	@PostMapping("/schedule/insertSchedule")
+	@ResponseBody
+	public ResponseEntity<Map<String, String>> insertTeamSchedule(TeamSchedule teamSchedule, HttpSession session) {
 	    try {
-	    	String memberId = (String) session.getAttribute("userId");
-	        TeamSchedule newSchedule = teamScheduleService.saveSchedule(dto, memberId);
-	        return ResponseEntity.ok(newSchedule);
+	        String memberId = (String) session.getAttribute("userId");
+	        teamScheduleService.insertTeamSchedule(teamSchedule, memberId);
+	        
+	        Map<String, String> response = new HashMap<>();
+	        response.put("message", "Schedule inserted successfully!");
+	        return ResponseEntity.ok(response);
 	    } catch (Exception e) {
-	        e.printStackTrace(); // 로그 추가
-	        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error adding schedule");
+	        e.printStackTrace();
+	        Map<String, String> response = new HashMap<>();
+	        response.put("message", "Error inserting schedule.");
+	        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
 	    }
 	}
 

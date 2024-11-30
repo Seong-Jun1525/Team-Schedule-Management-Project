@@ -14,6 +14,8 @@ public interface TeamScheduleService {
 
 	void updateSchedule(TeamSchedule teamSchedule);
 
-	TeamSchedule saveSchedule(TeamScheduleDTO dto, String memberId);
+//	TeamSchedule saveSchedule(TeamScheduleDTO dto, String memberId);
+
+	TeamSchedule insertTeamSchedule(TeamSchedule teamSchedule, String memberId);
 
 }
