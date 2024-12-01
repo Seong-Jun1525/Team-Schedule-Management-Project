@@ -20,7 +20,7 @@
 							th:data-url="@{my-team/member}" 
 							onclick="loadSideContent(event)"
 						>
-							<span>Team Member</span>
+							<span>팀원목록</span>
 						</a>
 					</li>
 		            <li>
@@ -28,7 +28,7 @@
 						    th:href="@{/my-team/schedule(teamNum=${myTeamInfo.teamNum})}" 
 						    target="_blank"
 						>
-						    <span>Team Schedule</span>
+						    <span>팀 일정</span>
 						</a>
 
 					</li>
@@ -38,9 +38,10 @@
 							th:data-url="@{my-team/board}" 
 							onclick="loadSideContent(event)"
 						>
-							<span>Team Board</span>
+							<span>게시판</span>
 						</a>
 					</li>
+					<!--
 		            <li>
 						<a 
 							href="#" 
@@ -50,6 +51,7 @@
 							<span>Team Chat</span>
 						</a>
 					</li>
+					-->
 		        </ul>
 		    </nav>
 		</aside>

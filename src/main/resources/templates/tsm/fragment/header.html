@@ -23,12 +23,12 @@
 		<span class="main-title">&nbsp;온라인 팀 프로젝트 일정관리 웹</span>
 		<div class="main-menu">
 			<a th:href="@{/}" title="팀 프로젝트 게시판">
-				<span>Board</span>
+				<span>팀원 모집</span>
 			</a>
 			
 			<!-- team -->
 			<a th:if="${userName != null && teamInfo == null}" href="javascript:void(0)" th:data-url="@{/team/register}" title="팀 생성" onclick="loadContent(event)">
-				<span>Register Team</span>
+				<span>팀 등록</span>
 			</a>
 			
 			<a th:if="${teamInfo != null}" href="javascript:void(0)" th:data-url="@{/my-team/}" title="나의 팀" onclick="loadContent(event)">
@@ -36,7 +36,7 @@
 			</a>
 			
 			<a href="javascript:void(0)" th:data-url="@{/member/my-info}" title="마이페이지" onclick="loadContent(event)">
-				<span>My Info</span>
+				<span>회원정보 수정</span>
 			</a>
 		</div>
 	</nav>
