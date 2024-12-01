@@ -1,3 +1,93 @@
-<div>
-	myTeamMember
+<html xmlns:th="http://www.thymeleaf.org">
+<div class="team-section-wrapper">
+
+    <!-- 팀원 목록 -->
+    <div class="team-member-container">
+        <div class="team-section-header">
+            <h2>팀원 목록</h2>
+        </div>
+        <div class="team-member-content">
+            <div class="team-member-content-header">
+                <div class="team-member-content-header-item">
+                    <p>NUM</p>
+                </div>
+                <div class="team-member-content-header-item">
+                    <p>MEMBER ID</p>
+                </div>
+				<div class="team-member-content-header-item">
+				    <p>JOB</p>
+				</div>
+            </div>
+            <th:block th:if="${teamMembers == null || teamMembers.empty}">
+                <div class="team-member-list-wrapper">
+                    <div class="team-member-list-container">
+                        <div class="team-member-list">
+                            <div class="team-member-content-item">
+                                <p colspan="2">팀원이 없습니다.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </th:block>
+            <th:block th:if="${teamMembers != null && !teamMembers.empty}" th:each="teamMember, rowStat : ${teamMembers}">
+                <div class="team-member-list">
+                    <div class="team-member-content-item">
+                        <p th:text="${rowStat.index + 1}"></p>
+                    </div>
+                    <div class="team-member-content-item">
+                        <p th:text="${teamMember.userId}"></p>
+                    </div>
+					<div class="team-member-content-item">
+					    <p th:text="${teamMember.userJob}"></p>
+					</div>
+                </div>
+            </th:block>
+        </div>
+    </div>
+
+    <!-- 팀원 신청 현황 -->
+    <div class="team-apply-container">
+        <div class="team-section-header">
+            <h2>팀원 신청 현황</h2>
+        </div>
+        <div class="team-apply-content">
+            <div class="team-apply-content-header">
+                <div class="team-apply-content-header-item">
+                    <p>NUM</p>
+                </div>
+                <div class="team-apply-content-header-item">
+                    <p>APPLIER ID</p>
+                </div>
+                <div class="team-apply-content-header-item">
+                    <p>ACTION</p>
+                </div>
+            </div>
+            <th:block th:if="${teamAppliers == null || teamAppliers.empty}">
+                <div class="team-apply-list-wrapper">
+                    <div class="team-apply-list-container">
+                        <div class="team-apply-list">
+                            <div class="team-apply-content-item">
+                                <p colspan="3">신청자가 없습니다.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </th:block>
+            <th:block th:if="${teamAppliers != null && !teamAppliers.empty}" th:each="teamApplier, rowStat : ${teamAppliers}">
+                <div class="team-apply-list">
+                    <div class="team-apply-content-item">
+                        <p th:text="${rowStat.index + 1}"></p>
+                    </div>
+                    <div class="team-apply-content-item">
+                        <p th:text="${teamApplier.applier}"></p>
+                    </div>
+                    <div class="team-apply-content-item action-buttons">
+                        <button type="button" class="accept-btn" th:data-applier="${teamApplier.applier}" onclick="acceptTeamApplier(this)">수락</button>
+                        <button type="button" class="reject-btn" th:data-applier="${teamApplier.applier}" onclick="rejectTeamApplier(this)">거절</button>
+                    </div>
+                </div>
+            </th:block>
+        </div>
+    </div>
 </div>
+</html>

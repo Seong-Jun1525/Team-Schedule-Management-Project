@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -21,11 +22,16 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.yuhan.TeamScheduleManagement.domain.Team;
+import com.yuhan.TeamScheduleManagement.domain.TeamApply;
 import com.yuhan.TeamScheduleManagement.domain.TeamBoard;
 import com.yuhan.TeamScheduleManagement.domain.TeamSchedule;
+
+import com.yuhan.TeamScheduleManagement.domain.User;
+import com.yuhan.TeamScheduleManagement.service.TeamApplyService;
 import com.yuhan.TeamScheduleManagement.service.TeamBoardService;
 import com.yuhan.TeamScheduleManagement.service.TeamScheduleService;
 import com.yuhan.TeamScheduleManagement.service.TeamService;
+import com.yuhan.TeamScheduleManagement.service.UserService;
 
 import jakarta.servlet.http.HttpSession;
 
@@ -42,12 +48,24 @@ public class MyTeamController {
 	@Autowired
 	private TeamScheduleService teamScheduleService;
 	
+	@Autowired
+	private TeamApplyService teamApplyService;
+	
+	@Autowired
+	private UserService userService;
+	
 	@GetMapping("/")
 	public String myTeamMain(HttpSession session, Model model) {
 		String userId = (String) session.getAttribute("userId");
 		String userName = (String) session.getAttribute("userName");
 		
-		Team myTeamInfo = teamService.getTeam(userId);
+		Team myTeamInfo;
+		User user = new User();
+		user.setUserId(userId);
+		Optional<User> existingUser = userService.getUser(user);
+		int teamNo = existingUser.get().getTeamId();
+		
+		myTeamInfo = teamService.getTeamByTeamNum(teamNo);
 		
 		model.addAttribute("userName", userName);
 		model.addAttribute("myTeamInfo", myTeamInfo);
@@ -61,9 +79,40 @@ public class MyTeamController {
 	}
 	
 	@GetMapping("/member")
-	public String myTeamMember() {
-		return "my_team/myTeamMember";
+	public String myTeamMember(HttpSession session, Model model) {
+	    // 세션에서 userId 가져오기
+	    String userId = (String) session.getAttribute("userId");
+
+	    if (userId == null) {
+	        return "redirect:/member/sign-in"; // 로그인 필요
+	    }
+
+	    // 팀 리더 여부 확인
+		Team myTeamInfo;
+		User user = new User();
+		user.setUserId(userId);
+		Optional<User> existingUser = userService.getUser(user);
+		int teamNo = existingUser.get().getTeamId();
+		myTeamInfo = teamService.getTeamByTeamNum(teamNo);
+
+	    if (!myTeamInfo.getMemberId().equals(userId)) {
+	        model.addAttribute("error", "팀 리더만 신청 현황을 볼 수 있습니다.");
+	        return "my_team/myTeamMain"; // 메인 페이지로 이동
+	    }
+	    
+	    // 팀 멤버 가져오기
+	    List<User> teamMembers = userService.getTeamMembers(teamNo);
+
+	    // 신청 현황 가져오기
+	    List<TeamApply> teamAppliers = teamApplyService.getApplicationsForLeader(userId);
+
+	    // 모델에 데이터 추가
+	    model.addAttribute("teamMembers", teamMembers); // 팀 멤버
+	    model.addAttribute("teamAppliers", teamAppliers);
+
+	    return "my_team/myTeamMember"; // 뷰 이름
 	}
+
 	
 	@GetMapping("/board")
 	public String myTeamBoard(
@@ -75,7 +124,15 @@ public class MyTeamController {
 		String userId = (String) session.getAttribute("userId");
 		String userName = (String) session.getAttribute("userName");
 
-		Team myTeamInfo = teamService.getTeam(userId);
+		Team myTeamInfo;
+		User user = new User();
+		user.setUserId(userId);
+		Optional<User> existingUser = userService.getUser(user);
+		int teamNo = existingUser.get().getTeamId();
+		
+		myTeamInfo = teamService.getTeamByTeamNum(teamNo);
+		
+		myTeamInfo.getMemberId();
 		
 		Page<TeamBoard> teamBoardList = teamBoardService.getAllTeamBoards(page, size);
 		
