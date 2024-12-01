@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -58,7 +59,13 @@ public class MyTeamController {
 		String userId = (String) session.getAttribute("userId");
 		String userName = (String) session.getAttribute("userName");
 		
-		Team myTeamInfo = teamService.getTeam(userId);
+		Team myTeamInfo;
+		User user = new User();
+		user.setUserId(userId);
+		Optional<User> existingUser = userService.getUser(user);
+		int teamNo = existingUser.get().getTeamId();
+		
+		myTeamInfo = teamService.getTeamByTeamNum(teamNo);
 		
 		model.addAttribute("userName", userName);
 		model.addAttribute("myTeamInfo", myTeamInfo);
@@ -81,18 +88,20 @@ public class MyTeamController {
 	    }
 
 	    // 팀 리더 여부 확인
-	    boolean isLeader = teamApplyService.isTeamLeader(userId);
-	    if (!isLeader) {
+		Team myTeamInfo;
+		User user = new User();
+		user.setUserId(userId);
+		Optional<User> existingUser = userService.getUser(user);
+		int teamNo = existingUser.get().getTeamId();
+		myTeamInfo = teamService.getTeamByTeamNum(teamNo);
+
+	    if (!myTeamInfo.getMemberId().equals(userId)) {
 	        model.addAttribute("error", "팀 리더만 신청 현황을 볼 수 있습니다.");
-	        return "my_team/accessDenied";
+	        return "my_team/myTeamMain"; // 메인 페이지로 이동
 	    }
 	    
 	    // 팀 멤버 가져오기
-	    Team teamInfo = teamService.getTeam(userId);
-	    int teamNo = teamInfo.getTeamNum();
 	    List<User> teamMembers = userService.getTeamMembers(teamNo);
-	    
-	    
 
 	    // 신청 현황 가져오기
 	    List<TeamApply> teamAppliers = teamApplyService.getApplicationsForLeader(userId);
@@ -115,7 +124,13 @@ public class MyTeamController {
 		String userId = (String) session.getAttribute("userId");
 		String userName = (String) session.getAttribute("userName");
 
-		Team myTeamInfo = teamService.getTeam(userId);
+		Team myTeamInfo;
+		User user = new User();
+		user.setUserId(userId);
+		Optional<User> existingUser = userService.getUser(user);
+		int teamNo = existingUser.get().getTeamId();
+		
+		myTeamInfo = teamService.getTeamByTeamNum(teamNo);
 		
 		myTeamInfo.getMemberId();
 		
