@@ -30,7 +30,7 @@
 				<p th:text="${project.projectContent}"></p>
 			</div>
 			<div class="project-board-detail-btn-wrapper">
-				<button type="button" class="project-board-detail-btn">팀원 신청하기</button>
+				<button type="button" class="project-board-detail-btn" th:data-project-leader="${project.projectLeader}" onclick="applyToTeam(this)">팀원 신청하기</button>
 			</div>
 		</div>
 	</div>	
