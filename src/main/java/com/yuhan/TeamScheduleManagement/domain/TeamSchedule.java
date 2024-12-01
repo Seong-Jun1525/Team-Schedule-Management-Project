@@ -26,9 +26,6 @@ public class TeamSchedule {
 	@Column(nullable = false, length = 20)
 	private String teamScheduleMemberId;
 	
-	@Column(nullable = false, length = 255)
-	private String teamScheduleContent;
-	
 	@Column(nullable = false, length = 30)
 	private String teamScheduleStartDate;
 	

@@ -10,4 +10,6 @@ public interface TeamScheduleRepository extends JpaRepository<TeamSchedule, Inte
 
 	List<TeamSchedule> findByTeamNum(int teamNum);
 
+	List<TeamSchedule> findByTeamNumAndTeamScheduleId(int teamNum, int teamScheduleId);
+
 }

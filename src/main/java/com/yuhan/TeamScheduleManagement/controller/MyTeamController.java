@@ -23,7 +23,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.yuhan.TeamScheduleManagement.domain.Team;
 import com.yuhan.TeamScheduleManagement.domain.TeamBoard;
 import com.yuhan.TeamScheduleManagement.domain.TeamSchedule;
-import com.yuhan.TeamScheduleManagement.dto.TeamScheduleDTO;
 import com.yuhan.TeamScheduleManagement.service.TeamBoardService;
 import com.yuhan.TeamScheduleManagement.service.TeamScheduleService;
 import com.yuhan.TeamScheduleManagement.service.TeamService;
@@ -199,7 +198,8 @@ public class MyTeamController {
 	    for (TeamSchedule schedule : schedules) {
 	        Map<String, Object> event = new HashMap<>();
 	        event.put("id", schedule.getTeamScheduleId());
-	        event.put("title", schedule.getTeamScheduleContent());
+//	        event.put("title", schedule.getTeamScheduleContent());
+	        event.put("title", schedule.getTeamScheduleState());
 	        event.put("start", schedule.getTeamScheduleStartDate());
 	        event.put("end", schedule.getTeamScheduleEndDate());
 	        event.put("allDay", schedule.getAllDay()); // isAllDay() 메서드 확인
@@ -209,35 +209,20 @@ public class MyTeamController {
 	    System.out.println("Events for calendar: " + events);
 	    return events;
 	}
-
-	// 일정 추가
-//	@PostMapping("/schedule/insertCalendar")
-//	public ResponseEntity<?> insertTeamSchedule(@RequestBody TeamScheduleDTO dto, HttpSession session) {
-//	    try {
-//	    	String memberId = (String) session.getAttribute("userId");
-//	        TeamSchedule newSchedule = teamScheduleService.saveSchedule(dto, memberId);
-//	        return ResponseEntity.ok(newSchedule);
-//	    } catch (Exception e) {
-//	        e.printStackTrace(); // 로그 추가
-//	        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error adding schedule");
-//	    }
-//	}
-
-	// 일정 추가
-//	@PostMapping("/schedule/insertSchedule")
-//	public String insertTeamSchedule(TeamSchedule teamSchedule, HttpSession session) {
-//		System.out.println("teamSchedule : " + teamSchedule);
-//		String memberId = (String) session.getAttribute("userId");
-//		
-//		teamScheduleService.insertTeamSchedule(teamSchedule, memberId);
-//		
-//		return "my_team/myTeamSchedule";
-//	}
 	
+	@GetMapping("/schedule/event")
+	public List<TeamSchedule> getScheduleEvent(@RequestParam int teamNum, @RequestParam int teamScheduleId) {
+		List<TeamSchedule> schedule = teamScheduleService.getScheduleByTeamNumAndTeamScheduleId(teamNum, teamScheduleId);
+		
+		return schedule;
+	}
+	
+	// 일정 추가
 	@PostMapping("/schedule/insertSchedule")
 	@ResponseBody
 	public ResponseEntity<Map<String, String>> insertTeamSchedule(TeamSchedule teamSchedule, HttpSession session) {
 	    try {
+	    	System.out.println("teamSchedule insert : " + teamSchedule);
 	        String memberId = (String) session.getAttribute("userId");
 	        teamScheduleService.insertTeamSchedule(teamSchedule, memberId);
 	        
@@ -253,20 +238,16 @@ public class MyTeamController {
 	}
 
 	// 일정 삭제
-	@DeleteMapping("/schedule/delete")
-	public ResponseEntity<?> deleteSchedule(@RequestBody Map<String, Object> map) {
-	    try {
-	        if (!map.containsKey("id")) {
-	            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Schedule ID is required");
-	        }
-	        int scheduleId = (int) map.get("id");
-	        teamScheduleService.deleteSchedule(scheduleId);
-	        return ResponseEntity.ok("Schedule deleted successfully");
-	    } catch (Exception e) {
-	        e.printStackTrace(); // 로그 추가 필요
-	        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error deleting schedule");
-	    }
-	}
+	@PostMapping("/schedule/deleteSchedule")
+    @ResponseBody
+    public ResponseEntity<String> deleteSchedule(@RequestParam int scheduleId) {
+        try {
+            teamScheduleService.deleteSchedule(scheduleId);
+            return ResponseEntity.ok("삭제 성공");
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("삭제 실패");
+        }
+    }
 
 	// 일정 수정
 	@PutMapping("/schedule/update")

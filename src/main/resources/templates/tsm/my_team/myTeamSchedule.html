@@ -63,9 +63,6 @@
 					<input type="date" id="teamScheduleEndDate" name="teamScheduleEndDate" />
 				</div>
 				<div class="team-schedule-insert-form-item">
-					<input type="text" name="teamScheduleContent" placeholder="내용을 입력해주세요" />
-				</div>
-				<div class="team-schedule-insert-form-item">
 					<select name="teamScheduleState">
 						<option value="REGULAR_MEETING">정규회의</option>
 						<option value="ADDITIONAL_MEETING">추가회의</option>
@@ -82,7 +79,8 @@
 
     <!-- FullCalendar 스크립트 -->
     <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.15/index.global.min.js"></script>
-    <script th:inline="javascript">
+	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+	<script th:inline="javascript">
         document.addEventListener('DOMContentLoaded', function () {
 			document.getElementById('insertScheduleForm').addEventListener('submit', function (event) {
 		        event.preventDefault();
@@ -113,8 +111,8 @@
                     timeZone: 'UTC',
                     locale: 'ko',
                     headerToolbar: {
-		                start: 'dayGridMonth,timeGridWeek,dayGridDay', // headerToolbar에 버튼 추가
-		                center: 'title',
+		                start: 'dayGridMonth', // headerToolbar에 버튼 추가
+		                // center: 'title',
 		                end: 'addEventButton today prev,next'  // 스페이스-버튼띄움 ,-붙여서 생성
 		            }, 
 		            customButtons: {
@@ -140,64 +138,7 @@
                     eventRemove: function (obj) {
                         console.log("Event removed:", obj);
                     },
-                    select: function (arg) {
-					    const modal = document.querySelector('.insert-modal-wrapper');
-					    const closeBtn = document.querySelector('.close-btn');
-					    const startDateInput = document.getElementById('teamScheduleStartDate');
-					    
-					    startDateInput.value = arg.start.toISOString().substring(0, 10);
-					    
-					    // 모달 창 띄우기
-					    modal.style.display = 'flex';
-					
-					    // 모달 닫기 버튼 이벤트
-					    closeBtn.addEventListener("click", () => {
-					        modal.style.display = 'none';
-					        calendar.unselect(); // 선택된 날짜 해제
-					    });
-					
-					    // 폼 제출 이벤트
-					    const form = document.getElementById('insertScheduleForm');
-					    form.addEventListener('submit', function (event) {
-					        event.preventDefault(); // 기본 폼 제출 방지
-					
-					        const formData = new FormData(form);
-					        const newEvent = {
-					            teamNum: teamNum,
-					            teamScheduleContent: formData.get('teamScheduleContent'),
-					            teamScheduleStartDate: formData.get('teamScheduleStartDate'),
-					            teamScheduleEndDate: formData.get('teamScheduleEndDate'),
-					            allDay: arg.allDay // FullCalendar에서 선택한 날짜의 allDay 여부
-					        };
-					
-					        fetch('/my-team/schedule/insertSchedule', {
-					            method: 'POST',
-					            headers: { 'Content-Type': 'application/json' },
-					            body: JSON.stringify(newEvent)
-					        })
-					        .then(response => {
-					            if (!response.ok) throw new Error('Error saving event');
-					            return response.json();
-					        })
-					        .then(data => {
-					            calendar.addEvent({
-					                id: data.teamScheduleId,
-					                title: data.teamScheduleContent,
-					                start: data.teamScheduleStartDate,
-					                end: data.teamScheduleEndDate,
-					                allDay: data.allDay
-					            });
-					
-					            modal.style.display = 'none'; // 모달 닫기
-					            form.reset(); // 폼 초기화
-					        })
-					        .catch(error => {
-					            console.error('Error:', error);
-					            alert('일정을 저장하는 중 오류가 발생했습니다.');
-					        });
-					    });
-				        calendar.unselect();
-				    },
+                    
                     events: function (fetchInfo, successCallback, failureCallback) {
 					    fetch(`/my-team/schedule/events?teamNum=${teamNum}`) // 새 엔드포인트 호출
 					        .then(response => {
@@ -207,10 +148,32 @@
 					            return response.json();
 					        })
 					        .then(data => {
-					            // 서버에서 반환된 데이터를 FullCalendar 이벤트 형식으로 변환
+								const textMapping = {
+								    'REGULAR_MEETING': '🗓️정규회의',
+								    'ADDITIONAL_MEETING': '🔔추가회의',
+								    'VACATION': '🌴휴가',
+								    'ETC': '⚙️기타'
+								};
+								
+					            const backgroundColorMapping = {
+								    'REGULAR_MEETING': 'blue',
+								    'ADDITIONAL_MEETING': 'green',
+								    'VACATION': 'yellow',
+								    'ETC': 'gray'
+								};
+								
+								const colorMapping = {
+									'REGULAR_MEETING': '#FFFFFF',
+								    'ADDITIONAL_MEETING': '#FFFFFF',
+								    'VACATION': '#000000',
+								    'ETC': '#000000'
+								};
+								
 					            const events = data.map(event => ({
 					                id: event.id,
-					                title: event.title,
+					                title: textMapping[event.title] || '기타',
+					                textColor: colorMapping[event.title] || '#000000',
+					                color: backgroundColorMapping[event.title] || 'grey',
 					                start: event.start,
 					                end: event.end,
 					                allDay: event.allDay
@@ -222,7 +185,37 @@
 					            console.error('Error fetching events:', error);
 					            failureCallback(error);
 					        });
-					}
+					},
+					eventClick: function (info) {
+					    Swal.fire({
+					        icon: 'warning',
+					        title: '일정 삭제',
+					        text: `'${info.event.title}' 일정을 삭제하시겠습니까?`,
+					        showCancelButton: true,
+					        confirmButtonText: '삭제',
+					        cancelButtonText: '취소',
+					    }).then((result) => {
+					        if (result.isConfirmed) {
+					            fetch(`/my-team/schedule/deleteSchedule?scheduleId=${info.event.id}`, {
+								    method: 'POST',
+								})
+								    .then((response) => response.text())
+								    .then((message) => {
+								        if (message === "삭제 성공") {
+								            Swal.fire('삭제 완료', `'${info.event.title}' 일정이 삭제되었습니다.`, 'success').then(() => {
+								                info.event.remove(); // 캘린더에서 삭제
+								            });
+								        } else {
+								            Swal.fire('삭제 실패', message, 'error');
+								        }
+								    })
+								    .catch((error) => {
+								        console.error('Error:', error);
+								        Swal.fire('오류 발생', '일정을 삭제하는 중 오류가 발생했습니다.', 'error');
+								    });
+					        }
+					    });
+					},
                 });
                 calendar.render();
             } else {
