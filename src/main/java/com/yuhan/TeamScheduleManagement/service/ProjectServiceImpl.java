@@ -13,6 +13,8 @@ import com.yuhan.TeamScheduleManagement.domain.Project;
 import com.yuhan.TeamScheduleManagement.domain.Project.ProjectState;
 import com.yuhan.TeamScheduleManagement.persistance.ProjectRepository;
 
+import jakarta.transaction.Transactional;
+
 @Service
 public class ProjectServiceImpl implements ProjectService {
 	@Autowired
@@ -62,4 +64,10 @@ public class ProjectServiceImpl implements ProjectService {
 		System.out.println("avaiableProject : " + avaiableProject);
 		return avaiableProject;
 	}
+	
+    @Transactional
+    @Override
+    public void incrementNumberOfPeople(String projectLeader) {
+        projectRepo.incrementNumberOfPeople(projectLeader);
+    }
 }

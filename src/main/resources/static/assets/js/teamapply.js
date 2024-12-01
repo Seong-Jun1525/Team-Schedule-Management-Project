@@ -47,3 +47,102 @@ function applyToTeam(button) {
         }
     });
 }
+
+function acceptTeamApplier(button) {
+    const applier = button.getAttribute('data-applier'); // 버튼의 data-applier 값 가져오기
+
+    Swal.fire({
+        title: '팀원 신청 수락',
+        text: '해당 신청을 수락하시겠습니까?',
+        icon: 'question',
+        showCancelButton: true,
+        confirmButtonText: '수락',
+        cancelButtonText: '취소',
+    }).then((result) => {
+        if (result.isConfirmed) {
+            fetch('/team-apply/accept', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                },
+                body: new URLSearchParams({ applier }), // applier 데이터 전송
+            })
+                .then((response) => response.json())
+                .then((data) => {
+                    if (data.status === 'success') {
+                        Swal.fire({
+                            icon: 'success',
+                            title: '수락 완료',
+                            text: data.message,
+                        }).then(() => {
+                            location.reload(); // 페이지 새로고침
+                        });
+                    } else {
+                        Swal.fire({
+                            icon: 'error',
+                            title: '오류',
+                            text: data.message,
+                        });
+                    }
+                })
+                .catch((error) => {
+                    console.error('Error:', error);
+                    Swal.fire({
+                        icon: 'error',
+                        title: '서버 오류',
+                        text: '서버와의 통신 중 문제가 발생했습니다.',
+                    });
+                });
+        }
+    });
+}
+
+function rejectTeamApplier(button) {
+    const applier = button.getAttribute('data-applier'); // 버튼의 data-applier 값 가져오기
+
+    Swal.fire({
+        title: '팀원 신청 거절',
+        text: '해당 신청을 거절하시겠습니까?',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonText: '거절',
+        cancelButtonText: '취소',
+    }).then((result) => {
+        if (result.isConfirmed) {
+            fetch('/team-apply/reject', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                },
+                body: new URLSearchParams({ applier }), // applier 데이터 전송
+            })
+                .then((response) => response.json())
+                .then((data) => {
+                    if (data.status === 'success') {
+                        Swal.fire({
+                            icon: 'success',
+                            title: '거절 완료',
+                            text: data.message,
+                        }).then(() => {
+                            location.reload(); // 페이지 새로고침
+                        });
+                    } else {
+                        Swal.fire({
+                            icon: 'error',
+                            title: '오류',
+                            text: data.message,
+                        });
+                    }
+                })
+                .catch((error) => {
+                    console.error('Error:', error);
+                    Swal.fire({
+                        icon: 'error',
+                        title: '서버 오류',
+                        text: '서버와의 통신 중 문제가 발생했습니다.',
+                    });
+                });
+        }
+    });
+}
+

@@ -21,12 +21,16 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.yuhan.TeamScheduleManagement.domain.Team;
+import com.yuhan.TeamScheduleManagement.domain.TeamApply;
 import com.yuhan.TeamScheduleManagement.domain.TeamBoard;
 import com.yuhan.TeamScheduleManagement.domain.TeamSchedule;
+import com.yuhan.TeamScheduleManagement.domain.User;
 import com.yuhan.TeamScheduleManagement.dto.TeamScheduleDTO;
+import com.yuhan.TeamScheduleManagement.service.TeamApplyService;
 import com.yuhan.TeamScheduleManagement.service.TeamBoardService;
 import com.yuhan.TeamScheduleManagement.service.TeamScheduleService;
 import com.yuhan.TeamScheduleManagement.service.TeamService;
+import com.yuhan.TeamScheduleManagement.service.UserService;
 
 import jakarta.servlet.http.HttpSession;
 
@@ -42,6 +46,12 @@ public class MyTeamController {
 	
 	@Autowired
 	private TeamScheduleService teamScheduleService;
+	
+	@Autowired
+	private TeamApplyService teamApplyService;
+	
+	@Autowired
+	private UserService userService;
 	
 	@GetMapping("/")
 	public String myTeamMain(HttpSession session, Model model) {
@@ -62,9 +72,38 @@ public class MyTeamController {
 	}
 	
 	@GetMapping("/member")
-	public String myTeamMember() {
-		return "my_team/myTeamMember";
+	public String myTeamMember(HttpSession session, Model model) {
+	    // 세션에서 userId 가져오기
+	    String userId = (String) session.getAttribute("userId");
+
+	    if (userId == null) {
+	        return "redirect:/member/sign-in"; // 로그인 필요
+	    }
+
+	    // 팀 리더 여부 확인
+	    boolean isLeader = teamApplyService.isTeamLeader(userId);
+	    if (!isLeader) {
+	        model.addAttribute("error", "팀 리더만 신청 현황을 볼 수 있습니다.");
+	        return "my_team/accessDenied";
+	    }
+	    
+	    // 팀 멤버 가져오기
+	    Team teamInfo = teamService.getTeam(userId);
+	    int teamNo = teamInfo.getTeamNum();
+	    List<User> teamMembers = userService.getTeamMembers(teamNo);
+	    
+	    
+
+	    // 신청 현황 가져오기
+	    List<TeamApply> teamAppliers = teamApplyService.getApplicationsForLeader(userId);
+
+	    // 모델에 데이터 추가
+	    model.addAttribute("teamMembers", teamMembers); // 팀 멤버
+	    model.addAttribute("teamAppliers", teamAppliers);
+
+	    return "my_team/myTeamMember"; // 뷰 이름
 	}
+
 	
 	@GetMapping("/board")
 	public String myTeamBoard(
@@ -77,6 +116,8 @@ public class MyTeamController {
 		String userName = (String) session.getAttribute("userName");
 
 		Team myTeamInfo = teamService.getTeam(userId);
+		
+		myTeamInfo.getMemberId();
 		
 		Page<TeamBoard> teamBoardList = teamBoardService.getAllTeamBoards(page, size);
 		

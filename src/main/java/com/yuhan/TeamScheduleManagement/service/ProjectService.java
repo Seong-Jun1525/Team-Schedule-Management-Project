@@ -26,4 +26,6 @@ public interface ProjectService {
 	public Optional<Project> getProject(int projectId);
 
 	public Project getAviableProject(String userId);
+	
+	void incrementNumberOfPeople(String projectLeader);
 }

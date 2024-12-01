@@ -12,9 +12,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.yuhan.TeamScheduleManagement.domain.Team;
 import com.yuhan.TeamScheduleManagement.domain.TeamApply;
 import com.yuhan.TeamScheduleManagement.domain.User;
+import com.yuhan.TeamScheduleManagement.service.ProjectService;
 import com.yuhan.TeamScheduleManagement.service.TeamApplyService;
+import com.yuhan.TeamScheduleManagement.service.TeamService;
 import com.yuhan.TeamScheduleManagement.service.UserService;
 
 import jakarta.servlet.http.HttpSession;
@@ -28,6 +31,12 @@ public class TeamApplyController {
 
     @Autowired
     private UserService userService;
+    
+    @Autowired
+    private TeamService teamService;
+    
+    @Autowired
+    private ProjectService projectService;
 
     @PostMapping("/apply")
     @ResponseBody
@@ -99,5 +108,85 @@ public class TeamApplyController {
 
         return response;
     }
+    
+    
+    @PostMapping("/accept")
+    @ResponseBody
+    public Map<String, String> acceptTeamApplier(@RequestParam String applier, HttpSession session) {
+        Map<String, String> response = new HashMap<>();
+        System.out.println("Applier: " + applier);
+
+
+        try {
+            // 세션에서 로그인한 사용자 ID 확인
+            String userId = (String) session.getAttribute("userId");
+
+            if (userId == null) {
+                response.put("status", "error");
+                response.put("message", "로그인이 필요합니다.");
+                return response;
+            }
+
+            // 로그인한 사용자 팀 정보 가져오기
+            Team team = teamService.getTeam(userId);
+
+            if (team == null) {
+                response.put("status", "error");
+                response.put("message", "팀 정보가 없습니다.");
+                return response;
+            }
+
+            // 신청자의 팀 정보를 업데이트
+            boolean updated = teamApplyService.acceptApplication(applier, team.getTeamNum());
+            if (!updated) {
+                response.put("status", "error");
+                response.put("message", "팀원 신청 수락에 실패했습니다.");
+                return response;
+            }
+            
+            // 프로젝트 인원 증가
+            projectService.incrementNumberOfPeople(userId);
+
+            response.put("status", "success");
+            response.put("message", "팀원 신청을 수락했습니다.");
+        } catch (Exception e) {
+            response.put("status", "error");
+            response.put("message", "서버 오류가 발생했습니다.");
+            e.printStackTrace();
+        }
+
+        return response;
+    }
+
+    @PostMapping("/reject")
+    @ResponseBody
+    public Map<String, String> rejectTeamApplier(@RequestParam String applier) {
+        Map<String, String> response = new HashMap<>();
+        System.out.println("Applier: " + applier);
+
+
+        try {
+            // 신청 데이터를 삭제
+            boolean deleted = teamApplyService.rejectApplication(applier);
+            if (!deleted) {
+                response.put("status", "error");
+                response.put("message", "팀원 신청 거절에 실패했습니다.");
+                return response;
+            }
+
+            response.put("status", "success");
+            response.put("message", "팀원 신청을 거절했습니다.");
+        } catch (Exception e) {
+            response.put("status", "error");
+            response.put("message", "서버 오류가 발생했습니다.");
+            e.printStackTrace();
+        }
+
+        return response;
+    }
+
+    
+    
+    
 }
 
